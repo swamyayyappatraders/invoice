@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice</title>
+<link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="invoice-container">
+
+    <div class="header">
+        <img src="logo.png" class="logo">
+        <h2>SRI SWAMY AYYAPPA TRADERS</h2>
+        <p>Mahatma Gandhi Wholesale Commercial Complex<br>
+        Shop No 397, Gollapudi, Vijayawada - 521225<br>
+        GSTIN: 37AUTPV5283H1ZO</p>
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <b>Invoice No:</b> <span id="invoiceID"></span><br>
+        <b>Date:</b> <span id="invoiceDate"></span><br>
+    </div>
+
+    <div class="section">
+        <b>Customer Name:</b> <span id="customerName"></span><br>
+        <b>Phone:</b> <span id="customerPhone"></span><br>
+    </div>
+
+    <hr>
+
+    <table>
+        <tr>
+            <th>Description</th>
+            <th>Qty (KG)</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td id="product"></td>
+            <td id="qty"></td>
+            <td id="rate"></td>
+            <td id="amount"></td>
+        </tr>
+    </table>
+
+    <hr>
+
+    <div class="totals">
+        <div><b>Total Amount:</b> <span id="totalAmount"></span></div>
+        <div><b>Paid Amount:</b> <span id="paidAmount"></span></div>
+        <div><b>Balance:</b> <span id="balance"></span></div>
+    </div>
+
+    <hr>
+
+    <div class="section">
+        <b>Notes:</b>
+        <div id="notes"></div>
+    </div>
+
+    <div class="footer">
+        Thank you for your business! 🙏<br>
+        <small>This is a computer-generated invoice.</small>
+    </div>
+
+</div>
+
+<script>
+const p = new URLSearchParams(window.location.search);
+document.getElementById("invoiceID").innerText = p.get("invoiceID");
+document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
+document.getElementById("customerName").innerText = p.get("customerName");
+document.getElementById("customerPhone").innerText = p.get("customerPhone");
+document.getElementById("product").innerText = p.get("product");
+document.getElementById("qty").innerText = p.get("qty");
+document.getElementById("rate").innerText = "₹" + p.get("rate");
+document.getElementById("amount").innerText = "₹" + p.get("amount");
+document.getElementById("totalAmount").innerText = "₹" + p.get("totalAmount");
+document.getElementById("paidAmount").innerText = "₹" + p.get("paidAmount");
+document.getElementById("balance").innerText = "₹" + p.get("balance");
+document.getElementById("notes").innerText = p.get("notes");
+</script>
+
+</body>
+</html>
