@@ -6,141 +6,119 @@ body {
 }
 
 .invoice-wrapper {
-    max-width: 800px;     /* Center width */
-    margin: 0 auto;       /* Centers the invoice */
+    width: 750px;
+    margin: 20px auto;
     background: white;
-    padding: 30px;
+    padding: 25px 35px;
     border: 1px solid #ddd;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    border-radius: 6px;
 }
 
 .header {
-    text-align: center;
-    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
 }
 
 .logo {
-    width: 80px;
-    margin-bottom: 10px;
+    width: 90px;
+    margin-right: 20px;
 }
 
-h2 {
+.title-block {
+    text-align: left;
+}
+
+.title-block h2 {
     margin: 0;
-    font-size: 22px;
+    font-size: 26px;
 }
 
-.sub-header {
-    text-align: center;
-    font-size: 13px;
-    margin-top: 5px;
-    margin-bottom: 10px;
-    line-height: 1.4;
+.divider {
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border: 0;
+    border-top: 1px solid #ccc;
 }
 
-/* Info sections */
-.info-row {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 10px;
-    margin-bottom: 10px;
+.info-table {
+    width: 100%;
     font-size: 14px;
+    margin-bottom: 20px;
 }
 
-.info-row div {
-    width: 48%;
+.info-table td {
+    padding: 5px 0;
 }
 
-/* Table */
-table {
+.items-table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-bottom: 18px;
 }
 
-table, th, td {
+.items-table th {
+    background: #e9e9e9;
+    padding: 10px;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+.items-table td {
+    padding: 10px;
     border: 1px solid #ccc;
 }
 
-th {
-    background: #f1f1f1;
-    padding: 8px;
-    font-size: 14px;
-    text-align: center;
-}
-
-td {
-    padding: 8px;
-    font-size: 14px;
-    text-align: center;
-}
-
-/* Amount sections */
-.amount-section {
-    margin-top: 15px;
+.totals {
     font-size: 15px;
-}
-
-.amount-section div {
-    margin-bottom: 6px;
-}
-
-.notes {
     margin-top: 10px;
+    margin-bottom: 20px;
 }
 
-.signature {
+.notes-section {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.signature-block {
     margin-top: 40px;
     text-align: right;
-    padding-right: 50px;
-    font-size: 14px;
 }
 
 .signature-line {
-    margin-top: 40px;
-    margin-bottom: 40px;
-    text-align: right;
-    padding-right: 50px;
+    width: 220px;
+    height: 1px;
+    background: #444;
+    margin-left: auto;
+    margin-bottom: 5px;
 }
 
-.signature-line div {
-    display: inline-block;
-    width: 180px;
-    border-bottom: 1px solid #333;
+.signature-label {
+    font-size: 14px;
 }
 
-.footer {
+.thanks {
+    margin-top: 25px;
     text-align: center;
-    margin-top: 40px;
-    font-size: 13px;
-    color: #555;
+    font-size: 15px;
+    color: #444;
 }
 
+.small-text {
+    font-size: 11px;
+    color: #777;
+    margin-top: 4px;
+}
 
-/* PRINT OPTIMIZATION */
+/* Print Optimization */
 @media print {
-
     body {
         background: white;
     }
-
     .invoice-wrapper {
-        margin: 0 auto;
         box-shadow: none;
         border: none;
-        padding: 20px;
         width: 100%;
-        max-width: 800px;
-    }
-
-    table, th, td {
-        border: 1px solid #555 !important;
-    }
-
-    th {
-        background: #efefef !important;
-        -webkit-print-color-adjust: exact;
-        print-color-adjust: exact;
+        margin: 0;
+        padding: 0 20px;
     }
 }
