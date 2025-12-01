@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Invoice</title>
+
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+        max-width: 800px;
+        margin: auto;
+        background: #f8f8f8;
+    }
+    .header {
+        text-align: center;
+        margin-bottom: 10px;
+    }
+    .header img {
+        width: 80px;
+        height: auto;
+    }
+    .title {
+        font-size: 22px;
+        font-weight: bold;
+    }
+    .section {
+        background: white;
+        padding: 12px;
+        border: 1px solid #ddd;
+        margin-top: 12px;
+        border-radius: 6px;
+    }
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 8px;
+    }
+    table, th, td {
+        border: 1px solid #ccc;
+    }
+    th, td {
+        padding: 8px;
+        text-align: left;
+    }
+    th {
+        background: #f1f1f1;
+    }
+    .right {
+        text-align: right;
+    }
+    .footer {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+    }
+</style>
+
+</head>
+<body>
+
+<div class="header">
+    <img src="LOGO_URL" alt="Shop Logo">
+    <div class="title">SRI SWAMY AYYAPPA TRADERS</div>
+    <div>Mahatma Gandhi Wholesale Commercial Complex</div>
+    <div>Shop No 397, Gollapudi, Vijayawada - 521225</div>
+    <div><b>GSTIN:</b> 37AUTPV5283H1ZO</div>
+</div>
+
+<div class="section">
+    <b>Invoice Details</b><br>
+    Invoice No: <span id="invoiceID"></span><br>
+    Date: <span id="invoiceDate"></span><br>
+</div>
+
+<div class="section">
+    <b>Customer Details</b><br>
+    Name: <span id="customerName"></span><br>
+    Phone: <span id="customerPhone"></span><br>
+</div>
+
+<div class="section">
+    <b>Product Summary</b>
+    <table>
+        <tr>
+            <th>Description</th>
+            <th class="right">Qty</th>
+            <th class="right">Rate</th>
+            <th class="right">Amount</th>
+        </tr>
+        <tr>
+            <td id="product"></td>
+            <td class="right" id="qty"></td>
+            <td class="right" id="rate"></td>
+            <td class="right" id="amount"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <b>Totals</b>
+    <table>
+        <tr>
+            <td><b>Total Amount</b></td>
+            <td class="right" id="totalAmount"></td>
+        </tr>
+        <tr>
+            <td><b>Paid Amount</b></td>
+            <td class="right" id="paidAmount"></td>
+        </tr>
+        <tr>
+            <td><b>Balance</b></td>
+            <td class="right" id="balance"></td>
+        </tr>
+    </table>
+</div>
+
+<div class="section">
+    <b>Notes:</b>
+    <div id="notes"></div>
+</div>
+
+<div class="footer">
+    Thank you for your business! 🙏<br>
+    <small>This is a computer-generated invoice.</small>
+</div>
+
+<script>
+// Read URL parameters
+const params = new URLSearchParams(window.location.search);
+
+document.getElementById("invoiceID").innerText = params.get("invoiceID");
+document.getElementById("invoiceDate").innerText = params.get("invoiceDate");
+document.getElementById("customerName").innerText = params.get("customerName");
+document.getElementById("customerPhone").innerText = params.get("customerPhone");
+document.getElementById("product").innerText = params.get("product");
+document.getElementById("qty").innerText = params.get("qty");
+document.getElementById("rate").innerText = "₹" + params.get("rate");
+document.getElementById("amount").innerText = "₹" + params.get("amount");
+document.getElementById("totalAmount").innerText = "₹" + params.get("totalAmount");
+document.getElementById("paidAmount").innerText = "₹" + params.get("paidAmount");
+document.getElementById("balance").innerText = "₹" + params.get("balance");
+document.getElementById("notes").innerText = params.get("notes");
+</script>
+
+</body>
+</html>
