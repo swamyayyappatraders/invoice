@@ -1,175 +1,132 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Invoice</title>
 <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<div class="page">
+<div class="invoice-container">
 
-    <div class="invoice-box">
-
-        <!-- HEADER -->
-        <div class="header">
-            <img src="logo.png" class="logo">
-
-            <div class="company-info">
-                <h2>SRI SWAMY AYYAPPA TRADERS</h2>
-                <p>
-                    Mahatma Gandhi Wholesale Commercial Complex<br>
-                    Shop No 397, Gollapudi, Vijayawada – 521225<br>
-                    <b>GSTIN:</b> 37AUTPV5283H1ZO
-                </p>
-            </div>
-        </div>
-
-        <hr>
-
-        <!-- INVOICE DETAILS -->
-        <table class="details-table">
-            <tr>
-                <td><b>Invoice No:</b> <span id="invoiceID"></span></td>
-                <td><b>Date:</b> <span id="invoiceDate"></span></td>
-            </tr>
-            <tr>
-                <td><b>Customer Name:</b> <span id="customerName"></span></td>
-                <td><b>Phone:</b> <span id="customerPhone"></span></td>
-            </tr>
-        </table>
-
-        <hr>
-
-        <!-- ITEMS TABLE -->
-        <table class="items-table" id="itemsTable">
-            <thead>
-                <tr>
-                    <th style="width: 40%">Description</th>
-                    <th style="width: 15%">Qty (KG)</th>
-                    <th style="width: 15%">Rate</th>
-                    <th style="width: 15%">Amount</th>
-                </tr>
-            </thead>
-            <tbody id="itemRows">
-                <!-- JS will insert rows here -->
-            </tbody>
-        </table>
-
-        <hr>
-
-        <!-- TOTALS -->
-        <div class="totals">
-            <div><b>Total Amount:</b> ₹<span id="totalAmount"></span></div>
-            <div><b>Paid Amount:</b> ₹<span id="paidAmount"></span></div>
-            <div><b>Balance:</b> ₹<span id="balance"></span></div>
-        </div>
-
-        <div class="amount-words">
-            <b>Amount in words:</b> <span id="amountWords"></span>
-        </div>
-
-        <hr>
-
-        <!-- NOTES -->
-        <div class="notes">
-            <b>Notes:</b><br>
-            <span id="notes"></span>
-        </div>
-
-        <hr>
-
-        <!-- SIGNATURE -->
-        <div class="signature-box">
-            <div class="sig-left">
-                <p><b>Customer Signature</b></p>
-                <div class="sig-line"></div>
-            </div>
-
-            <div class="sig-right">
-                <p><b>For SRI SWAMY AYYAPPA TRADERS</b></p>
-                <div class="seal-box">Company Seal</div>
-                <div class="sig-line"></div>
-                <p>Authorised Signatory</p>
-            </div>
-        </div>
-
-        <p class="footer-text">This is a computer-generated invoice.</p>
+    <!-- HEADER -->
+    <div class="header">
+        <img src="logo.png" class="logo">
+        <h2 class="title">SRI SWAMY AYYAPPA TRADERS</h2>
+        <p class="address">
+            Mahatma Gandhi Wholesale Commercial Complex<br>
+            Shop No 397, Gollapudi, Vijayawada – 521225<br>
+            <b>GSTIN:</b> 37AUTPV5283H1ZO
+        </p>
     </div>
+
+    <!-- INFO ROW -->
+    <table class="info-table">
+        <tr>
+            <td><b>Invoice No:</b> <span id="invoiceID"></span></td>
+            <td><b>Date:</b> <span id="invoiceDate"></span></td>
+        </tr>
+        <tr>
+            <td><b>Customer Name:</b> <span id="customerName"></span></td>
+            <td><b>Phone:</b> <span id="customerPhone"></span></td>
+        </tr>
+    </table>
+
+    <!-- ITEMS TABLE -->
+    <table class="items-table">
+        <thead>
+            <tr>
+                <th>Description</th>
+                <th>Qty (KG)</th>
+                <th>Rate</th>
+                <th>Amount</th>
+            </tr>
+        </thead>
+        <tbody id="itemRows">
+        </tbody>
+    </table>
+
+    <!-- TOTALS -->
+    <div class="totals">
+        <p><b>Total Amount:</b> ₹<span id="totalAmount"></span></p>
+        <p><b>Paid Amount:</b> ₹<span id="paidAmount"></span></p>
+        <p><b>Balance:</b> ₹<span id="balance"></span></p>
+        <p><b>Amount in words:</b> <span id="amountWords"></span></p>
+    </div>
+
+    <!-- NOTES -->
+    <div class="notes">
+        <b>Notes:</b>
+        <p id="notes"></p>
+    </div>
+
+    <!-- SIGNATURE -->
+    <div class="signature-box">
+        <div class="sig-label">Authorised Signature</div>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Thank you for your business! 🙏<br>
+        <small>This is a computer-generated invoice.</small>
+    </div>
+
 </div>
 
 <script>
-/* GET PARAMETERS */
+// Read URL parameters
 const p = new URLSearchParams(window.location.search);
 
-/* MULTI ITEM SUPPORT
-   Expected param format:
-   items = "Item1|Item2|Item3"
-   qty    = "10|20|30"
-   rate   = "100|200|300"
-   amount = "1000|4000|9000"
-*/
-
-const itemList = (p.get("items") || "").split("|");
-const qtyList = (p.get("qty") || "").split("|");
-const rateList = (p.get("rate") || "").split("|");
-const amountList = (p.get("amount") || "").split("|");
+// Multi-item support (items passed as CSV)
+let products = (p.get("product") || "").split(",");
+let qtys     = (p.get("qty") || "").split(",");
+let rates    = (p.get("rate") || "").split(",");
+let amounts  = (p.get("amount") || "").split(",");
 
 let tbody = document.getElementById("itemRows");
-
-for (let i = 0; i < itemList.length; i++) {
-    if (itemList[i].trim().length === 0) continue;
-
+for (let i = 0; i < products.length; i++) {
+    if (!products[i]) continue;
     let row = `
         <tr>
-            <td>${itemList[i]}</td>
-            <td>${qtyList[i]}</td>
-            <td>₹${rateList[i]}</td>
-            <td>₹${amountList[i]}</td>
-        </tr>
-    `;
+            <td>${products[i]}</td>
+            <td>${qtys[i]}</td>
+            <td>₹${rates[i]}</td>
+            <td>₹${amounts[i]}</td>
+        </tr>`;
     tbody.innerHTML += row;
 }
 
-/* SIMPLE FIELD FILLING */
+// Fill single fields
 document.getElementById("invoiceID").innerText = p.get("invoiceID") || "";
 document.getElementById("invoiceDate").innerText = p.get("invoiceDate") || "";
 document.getElementById("customerName").innerText = p.get("customerName") || "";
 document.getElementById("customerPhone").innerText = p.get("customerPhone") || "";
-document.getElementById("totalAmount").innerText = p.get("totalAmount") || "0";
-document.getElementById("paidAmount").innerText = p.get("paidAmount") || "0";
-document.getElementById("balance").innerText = p.get("balance") || "0";
+document.getElementById("totalAmount").innerText = p.get("totalAmount") || "";
+document.getElementById("paidAmount").innerText = p.get("paidAmount") || "";
+document.getElementById("balance").innerText = p.get("balance") || "";
 document.getElementById("notes").innerText = p.get("notes") || "";
 
-/* AMOUNT IN WORDS */
+// Convert number to words
 function numberToWords(num) {
-    let a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine"];
-    let b = ["Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
-    let c = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
+    const a = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
+    "Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+    const b = ["","", "Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
 
     if ((num = num.toString()).length > 9) return "Overflow";
+    let n = ('000000000' + num).substr(-9).match(/(\d{2})(\d{2})(\d{2})(\d{3})/);
+    if (!n) return "";
 
-    let n = ("000000000" + num).substr(-9).match(/.{1,2}/g);
     let str = "";
-
-    str += (n[0] != "00") ? (a[Number(n[0])] + " Crore ") : "";
-    str += (n[1] != "00") ? (a[Number(n[1])] + " Lakh ") : "";
-    str += (n[2] != "00") ? (a[Number(n[2])] + " Thousand ") : "";
-    str += (n[3] != "00") ? (a[Number(n[3])] + " Hundred ") : "";
-
-    let last = Number(n[4]);
-    if (last > 0) {
-        if (last < 10) str += a[last];
-        else if (last < 20) str += b[last - 10];
-        else str += c[Math.floor(last / 10)] + " " + a[last % 10];
-    }
-
-    return str.trim() + " Only";
+    str += (n[1] != 0) ? (a[Number(n[1])] || b[n[1][0]] + " " + a[n[1][1]]) + " Crore " : "";
+    str += (n[2] != 0) ? (a[Number(n[2])] || b[n[2][0]] + " " + a[n[2][1]]) + " Lakh " : "";
+    str += (n[3] != 0) ? (a[Number(n[3])] || b[n[3][0]] + " " + a[n[3][1]]) + " Thousand " : "";
+    str += (n[4] != 0) ? (a[Number(n[4])] || b[n[4][0]] + " " + a[n[4][1]]) : "";
+    return str + " Only";
 }
 
-document.getElementById("amountWords").innerText =
-    numberToWords(parseInt(p.get("totalAmount") || "0"));
+// Fill amount in words
+let total = p.get("totalAmount");
+document.getElementById("amountWords").innerText = numberToWords(total);
 </script>
 
 </body>
