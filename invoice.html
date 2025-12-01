@@ -1,207 +1,240 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8">
 <title>Invoice</title>
-
-<!-- Google font -->
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" href="style.css">
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.invoice-wrapper {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.header img {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+.header h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.header p {
+    margin: 3px 0;
+    font-size: 14px;
+}
+
+hr {
+    margin: 15px 0;
+    border: none;
+    border-top: 1px solid #ccc;
+}
+
+/* Section Layout */
+.section-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+/* Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+table th {
+    background: #f2f2f2;
+    padding: 8px;
+    text-align: left;
+    border: 1px solid #ccc;
+    font-weight: bold;
+}
+
+table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+/* Amount Section */
+.amount-section p {
+    font-size: 15px;
+    margin: 6px 0;
+}
+
+.amount-section span {
+    font-weight: bold;
+}
+
+/* Signature */
+.signature-block {
+    margin-top: 40px;
+    text-align: right;
+    font-size: 15px;
+}
+
+.signature-line {
+    width: 200px;
+    border-top: 1px solid #333;
+    margin-left: auto;
+    margin-bottom: 5px;
+}
+
+/* Footer */
+.footer {
+    margin-top: 30px;
+    text-align: center;
+    font-size: 13px;
+    color: #444;
+}
+
+@media print {
+    body {
+        -webkit-print-color-adjust: exact !important;
+        color-adjust: exact !important;
+    }
+}
+</style>
 
 </head>
 <body>
-  <div class="page">
-    <div class="invoice-box">
-      <header class="inv-header">
-        <div class="logo-area">
-          <img src="logo.png" alt="Logo" class="logo" />
-        </div>
-        <div class="title-area">
-          <h1 class="shop-name">SRI SWAMY AYYAPPA TRADERS</h1>
-          <div class="shop-addr">Mahatma Gandhi Wholesale Commercial Complex<br>Shop No 397, Gollapudi, Vijayawada - 521225</div>
-          <div class="gst"><strong>GSTIN:</strong> <span id="gst">37AUTPV5283H1ZO</span></div>
-        </div>
-      </header>
 
-      <hr class="divider">
+<div class="invoice-wrapper">
 
-      <section class="meta-grid">
-        <div class="meta-left">
-          <div><strong>Invoice No:</strong> <span id="invoiceID"></span></div>
-          <div><strong>Customer Name:</strong> <span id="customerName"></span></div>
-        </div>
-        <div class="meta-right">
-          <div><strong>Date:</strong> <span id="invoiceDate"></span></div>
-          <div><strong>Phone:</strong> <span id="customerPhone"></span></div>
-        </div>
-      </section>
-
-      <section class="items">
-        <table id="itemsTable" class="items-table">
-          <thead>
-            <tr>
-              <th class="col-desc">Description</th>
-              <th class="col-qty">Qty (KG)</th>
-              <th class="col-rate">Rate</th>
-              <th class="col-amount">Amount</th>
-            </tr>
-          </thead>
-          <tbody id="itemsBody">
-            <!-- rows inserted by JS -->
-          </tbody>
-        </table>
-      </section>
-
-      <section class="summary">
-        <div class="summary-left">
-          <div class="notes"><strong>Notes:</strong><div id="notes">None</div></div>
-        </div>
-        <div class="summary-right">
-          <div class="line"><span>Total Amount:</span> <span id="totalAmount" class="amt"></span></div>
-          <div class="line"><span>Paid Amount:</span> <span id="paidAmount" class="amt"></span></div>
-          <div class="line"><span>Balance:</span> <span id="balance" class="amt"></span></div>
-          <div class="line words"><strong>Amount in words:</strong> <em id="amountWords"></em></div>
-        </div>
-      </section>
-
-      <hr class="divider thin">
-
-      <section class="signature-row">
-        <div class="left-col"></div>
-        <div class="right-col">
-          <div class="signature-line">______________________________</div>
-          <div class="signature-label">Authorised Signature</div>
-        </div>
-      </section>
-
-      <footer class="inv-footer">
-        <div class="thank">Thank you for your business! 🙏</div>
-        <div class="small">This is a computer-generated invoice.</div>
-      </footer>
+    <!-- HEADER -->
+    <div class="header">
+        <img src="logo.png">
+        <h1>SRI SWAMY AYYAPPA TRADERS</h1>
+        <p>Mahatma Gandhi Wholesale Commercial Complex</p>
+        <p>Shop No 397, Gollapudi, Vijayawada – 521225</p>
+        <p><b>GSTIN:</b> 37AUTPV5283H1ZO</p>
     </div>
-  </div>
+
+    <hr>
+
+    <!-- Invoice + Customer -->
+    <div class="section-row">
+        <div><b>Invoice No:</b> <span id="invoiceID"></span></div>
+        <div><b>Date:</b> <span id="invoiceDate"></span></div>
+    </div>
+
+    <div class="section-row">
+        <div><b>Customer Name:</b> <span id="customerName"></span></div>
+        <div><b>Phone:</b> <span id="customerPhone"></span></div>
+    </div>
+
+    <hr>
+
+    <!-- TABLE -->
+    <table id="itemsTable">
+        <tr>
+            <th>Description</th>
+            <th>Qty (KG)</th>
+            <th>Rate</th>
+            <th>Amount</th>
+        </tr>
+    </table>
+
+    <!-- AMOUNT SECTION -->
+    <div class="amount-section">
+        <p><b>Total Amount:</b> ₹<span id="totalAmount"></span></p>
+        <p><b>Paid Amount:</b> ₹<span id="paidAmount"></span></p>
+        <p><b>Balance:</b> ₹<span id="balance"></span></p>
+        <p><b>Amount in words:</b> <span id="amountWords"></span></p>
+    </div>
+
+    <hr>
+
+    <!-- NOTES -->
+    <p><b>Notes:</b></p>
+    <p id="notes"></p>
+
+    <!-- SIGNATURE -->
+    <div class="signature-block">
+        <div class="signature-line"></div>
+        Authorised Signature
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+        Thank you for your business! 🙏<br>
+        <small>This is a computer-generated invoice.</small>
+    </div>
+
+</div>
 
 <script>
-/*
-  Expected URL parameters (AppSheet action should build URL):
-  invoiceID, invoiceDate, customerName, customerPhone,
-  product, qty, rate, amount, totalAmount, paidAmount, balance, notes
+// Read URL params
+const p = new URLSearchParams(window.location.search);
 
-  For multiple items: pass comma-separated values:
-  product=GN,SP  & qty=100,200  & rate=100,120  & amount=10000,24000
-*/
+// Multi-item support
+const descriptions = p.get("description")?.split("||") || [];
+const qtys = p.get("qty")?.split("||") || [];
+const rates = p.get("rate")?.split("||") || [];
+const amts = p.get("amount")?.split("||") || [];
 
-// helper: read params
-const params = new URLSearchParams(window.location.search);
-const get = (k)=> params.get(k) || '';
+const table = document.getElementById("itemsTable");
 
-// fill meta
-document.getElementById('invoiceID').innerText = get('invoiceID') || '—';
-document.getElementById('invoiceDate').innerText = get('invoiceDate') || '';
-document.getElementById('customerName').innerText = get('customerName') || '';
-document.getElementById('customerPhone').innerText = get('customerPhone') || '';
-document.getElementById('notes').innerText = get('notes') || 'None';
-
-// parse items (comma separated)
-function splitList(s){
-  if(!s) return [];
-  // decode plus signs etc
-  try { s = decodeURIComponent(s); } catch(e){}
-  return s.split(',').map(x=> x.trim());
+for (let i = 0; i < descriptions.length; i++) {
+    if (!descriptions[i]) continue;
+    let row = `
+        <tr>
+            <td>${descriptions[i]}</td>
+            <td>${qtys[i]}</td>
+            <td>₹${rates[i]}</td>
+            <td>₹${amts[i]}</td>
+        </tr>`;
+    table.insertAdjacentHTML("beforeend", row);
 }
 
-const products = splitList(get('product'));
-const qtys = splitList(get('qty'));
-const rates = splitList(get('rate'));
-const amounts = splitList(get('amount'));
+// Amount in Words
+function numberToWords(num) {
+    const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine", "Ten", "Eleven",
+               "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen", "Seventeen", "Eighteen", "Nineteen"];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 
-// compute rowsCount as max length among products/qtys/rates/amounts
-const rowsCount = Math.max(products.length, qtys.length, rates.length, amounts.length, 1);
+    if (num === 0) return "Zero";
 
-// insert rows
-const tbody = document.getElementById('itemsBody');
-for(let i=0;i<rowsCount;i++){
-  const tr = document.createElement('tr');
+    if (num < 20) return a[num];
+    if (num < 100) return b[Math.floor(num / 10)] + " " + a[num % 10];
+    if (num < 1000) return a[Math.floor(num / 100)] + " Hundred " + numberToWords(num % 100);
 
-  const desc = document.createElement('td'); desc.className='col-desc';
-  desc.innerText = products[i] || '';
-  const qtd = document.createElement('td'); qtd.className='col-qty';
-  qtd.innerText = qtys[i] || '';
-  const rate = document.createElement('td'); rate.className='col-rate';
-  rate.innerText = rates[i] ? '₹' + rates[i] : '';
-  const amt = document.createElement('td'); amt.className='col-amount';
-  amt.innerText = amounts[i] ? '₹' + amounts[i] : '';
-
-  tr.appendChild(desc);
-  tr.appendChild(qtd);
-  tr.appendChild(rate);
-  tr.appendChild(amt);
-  tbody.appendChild(tr);
+    return " " + num;
 }
 
-// totals and display. Ensure numeric cast from params (TotalAmount decimal type from AppSheet)
-function asNumber(s){
-  if(!s) return 0;
-  // remove commas
-  return Number(String(s).replace(/,/g,''));
-}
+let total = parseInt(p.get("totalAmount") || 0);
+document.getElementById("amountWords").innerText =
+    numberToWords(total) + " Only";
 
-const total = asNumber(get('totalAmount'));
-const paid = asNumber(get('paidAmount'));
-const bal = asNumber(get('balance'));
-
-document.getElementById('totalAmount').innerText = total ? '₹' + numberWithCommas(total.toFixed(2).replace(/\.00$/,'')) : '₹0';
-document.getElementById('paidAmount').innerText = paid ? '₹' + numberWithCommas(paid.toFixed(2).replace(/\.00$/,'')) : '₹0';
-document.getElementById('balance').innerText = bal ? '₹' + numberWithCommas(bal.toFixed(2).replace(/\.00$/,'')) : '₹0';
-
-// amount in words (Indian)
-document.getElementById('amountWords').innerText = toIndianWords(Math.round(total)) + ' Only';
-
-// utilities
-function numberWithCommas(x){
-  if(x===undefined || x===null) return x;
-  const parts = String(x).split('.');
-  parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  return parts.join('.');
-}
-
-/* Convert number to words in Indian system */
-function toIndianWords(num){
-  if(isNaN(num)) return '';
-  if(num===0) return 'Zero';
-  const ones = ['','One','Two','Three','Four','Five','Six','Seven','Eight','Nine','Ten',
-    'Eleven','Twelve','Thirteen','Fourteen','Fifteen','Sixteen','Seventeen','Eighteen','Nineteen'];
-  const tens = ['','','Twenty','Thirty','Forty','Fifty','Sixty','Seventy','Eighty','Ninety'];
-
-  function twoDigit(n){
-    if(n<20) return ones[n];
-    return tens[Math.floor(n/10)] + (n%10 ? ' ' + ones[n%10] : '');
-  }
-
-  function threeDigit(n){
-    const h = Math.floor(n/100);
-    const r = n%100;
-    return (h ? ones[h] + ' Hundred' + (r? ' ' : '') : '') + (r ? twoDigit(r) : '');
-  }
-
-  // split into groups: ones, thousands, lakhs, crores
-  let crore = Math.floor(num / 10000000);
-  num = num % 10000000;
-  let lakh = Math.floor(num / 100000);
-  num = num % 100000;
-  let thousand = Math.floor(num / 1000);
-  num = num % 1000;
-  let rest = num; // 0..999
-
-  const parts = [];
-  if(crore) parts.push( threeDigit(crore) + ' Crore' );
-  if(lakh) parts.push( (lakh<100? twoDigit(lakh) : threeDigit(lakh)) + ' Lakh' );
-  if(thousand) parts.push( (thousand<100? twoDigit(thousand) : threeDigit(thousand)) + ' Thousand' );
-  if(rest) parts.push( threeDigit(rest) );
-  return parts.join(' ').trim();
-}
+// Fill simple fields
+document.getElementById("invoiceID").innerText = p.get("invoiceID");
+document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
+document.getElementById("customerName").innerText = p.get("customerName");
+document.getElementById("customerPhone").innerText = p.get("customerPhone");
+document.getElementById("totalAmount").innerText = p.get("totalAmount");
+document.getElementById("paidAmount").innerText = p.get("paidAmount");
+document.getElementById("balance").innerText = p.get("balance");
+document.getElementById("notes").innerText = p.get("notes") || "None";
 </script>
+
 </body>
 </html>
