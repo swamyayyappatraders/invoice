@@ -1,103 +1,104 @@
 body {
-    font-family: "Segoe UI", Arial, sans-serif;
-    background: #f2f2f2;
-    margin: 0;
-    padding: 0;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #f5f5f5;
 }
 
-.invoice-container {
-    width: 800px;
+.invoice-wrapper {
     background: white;
-    margin: 20px auto;
-    padding: 25px;
+    padding: 25px 35px;
+    max-width: 850px;
+    margin: auto;
     border: 1px solid #ddd;
     border-radius: 6px;
 }
 
-.header {
-    text-align: center;
-    margin-bottom: 10px;
+.header-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
 }
 
 .logo {
-    width: 70px;
+    width: 80px;
+    height: auto;
 }
 
-.title {
+.header-text h2 {
+    margin: 0;
     font-size: 22px;
-    font-weight: bold;
-    margin: 5px 0;
+    font-weight: 700;
 }
 
-.address {
+.header-text p {
+    margin: 3px 0;
     font-size: 13px;
-    margin-top: 5px;
 }
 
-.info-table, .items-table {
+.info-table {
     width: 100%;
-    border-collapse: collapse;
-    margin-top: 15px;
     font-size: 14px;
+    margin-top: 10px;
 }
 
 .info-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
+    padding: 4px;
 }
 
-.items-table th {
-    background: #f5f5f5;
+.item-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.item-table th, .item-table td {
     border: 1px solid #ccc;
     padding: 8px;
-    text-align: center;
+    font-size: 14px;
 }
 
-.items-table td {
-    border: 1px solid #ddd;
-    padding: 8px;
-    text-align: center;
+.item-table th {
+    background: #f1f1f1;
 }
 
-.totals {
+.totals-box {
     margin-top: 15px;
     font-size: 14px;
 }
 
-.notes {
-    margin-top: 20px;
+.notes-box {
     font-size: 14px;
 }
 
 .signature-box {
-    width: 100%;
     margin-top: 40px;
     text-align: right;
 }
 
-.sig-label {
-    border-top: 1px solid #444;
+.sign-line {
     width: 200px;
-    float: right;
-    text-align: center;
-    padding-top: 5px;
-    font-size: 14px;
+    border-bottom: 1px solid #000;
+    margin-left: auto;
+}
+
+.sign-text {
+    margin-top: 5px;
+    font-size: 13px;
 }
 
 .footer {
     text-align: center;
-    margin-top: 35px;
-    font-size: 13px;
+    margin-top: 25px;
     color: #777;
+    font-size: 13px;
 }
 
-/* PRINT OPTIMIZATION */
 @media print {
-    body { background: white; }
-    .invoice-container {
+    body {
+        background: white;
+    }
+    .invoice-wrapper {
         border: none;
         margin: 0;
-        width: 100%;
-        padding: 0;
+        padding: 20px;
     }
 }
