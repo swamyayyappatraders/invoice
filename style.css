@@ -1,134 +1,103 @@
-/* A4 Print Layout */
-@page {
-    size: A4;
-    margin: 15mm;
-}
-
 body {
     font-family: "Segoe UI", Arial, sans-serif;
     background: #f2f2f2;
     margin: 0;
-    padding: 20px;
+    padding: 0;
 }
 
-.page {
-    width: 210mm;
-    margin: auto;
-}
-
-.invoice-box {
+.invoice-container {
+    width: 800px;
     background: white;
+    margin: 20px auto;
     padding: 25px;
-    border: 1px solid #d9d9d9;
+    border: 1px solid #ddd;
     border-radius: 6px;
-    box-shadow: 0 0 5px rgba(0,0,0,0.1);
 }
 
-/* HEADER */
 .header {
-    display: flex;
-    align-items: center;
-    gap: 25px;
-}
-
-.logo {
-    width: 90px;
-}
-
-.company-info {
-    text-align: left;
-}
-
-.company-info h2 {
-    margin: 0;
-    font-size: 22px;
-}
-
-.company-info p {
-    margin: 4px 0;
-    font-size: 13px;
-}
-
-/* TABLES */
-.details-table, .items-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-.details-table td {
-    padding: 6px;
-    font-size: 13px;
-}
-
-.items-table th {
-    background: #f0f0f0;
-    padding: 8px;
-    font-size: 14px;
-    text-align: left;
-}
-
-.items-table td {
-    padding: 8px;
-    border-bottom: 1px solid #eee;
-    font-size: 14px;
-}
-
-hr {
-    border: 0;
-    border-top: 1px solid #ddd;
-    margin: 15px 0;
-}
-
-/* TOTALS */
-.totals {
-    margin-top: 15px;
-    font-size: 15px;
-    line-height: 1.6;
-}
-
-.amount-words {
-    margin-top: 10px;
-    font-size: 14px;
-    font-style: italic;
-}
-
-/* NOTES */
-.notes {
-    margin-top: 10px;
-    font-size: 14px;
-}
-
-/* SIGNATURE AREA */
-.signature-box {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 40px;
-}
-
-.sig-left, .sig-right {
-    width: 45%;
-}
-
-.sig-line {
-    margin-top: 30px;
-    border-bottom: 1px solid #000;
-    height: 1px;
-}
-
-.seal-box {
-    width: 120px;
-    height: 60px;
-    border: 1px dashed #888;
     text-align: center;
-    line-height: 60px;
     margin-bottom: 10px;
 }
 
-/* FOOTER */
-.footer-text {
+.logo {
+    width: 70px;
+}
+
+.title {
+    font-size: 22px;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.address {
+    font-size: 13px;
+    margin-top: 5px;
+}
+
+.info-table, .items-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.info-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+.items-table th {
+    background: #f5f5f5;
+    border: 1px solid #ccc;
+    padding: 8px;
     text-align: center;
+}
+
+.items-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.totals {
+    margin-top: 15px;
+    font-size: 14px;
+}
+
+.notes {
     margin-top: 20px;
-    font-size: 12px;
-    color: #555;
+    font-size: 14px;
+}
+
+.signature-box {
+    width: 100%;
+    margin-top: 40px;
+    text-align: right;
+}
+
+.sig-label {
+    border-top: 1px solid #444;
+    width: 200px;
+    float: right;
+    text-align: center;
+    padding-top: 5px;
+    font-size: 14px;
+}
+
+.footer {
+    text-align: center;
+    margin-top: 35px;
+    font-size: 13px;
+    color: #777;
+}
+
+/* PRINT OPTIMIZATION */
+@media print {
+    body { background: white; }
+    .invoice-container {
+        border: none;
+        margin: 0;
+        width: 100%;
+        padding: 0;
+    }
 }
