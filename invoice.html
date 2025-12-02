@@ -13,29 +13,30 @@
     <!-- HEADER -->
     <div class="header">
         <img src="logo.png" class="logo">
-        <div class="shop-info">
+        <div class="company-info">
             <h2>SRI SWAMY AYYAPPA TRADERS</h2>
-            <p>Mahatma Gandhi Wholesale Commercial Complex<br>
-            Shop No 397, Gollapudi, Vijayawada – 521225<br>
-            <b>GSTIN:</b> 37AUTPV5283H1ZO</p>
+            <p>
+                Mahatma Gandhi Wholesale Commercial Complex<br>
+                Shop No 397, Gollapudi, Vijayawada – 521225<br>
+                <b>GSTIN:</b> 37AUTPV5283H1ZO
+            </p>
         </div>
     </div>
 
-    <hr class="line">
+    <hr class="divider">
 
-    <!-- TOP DETAILS -->
-    <div class="top-details">
-        <div>
-            <b>Invoice No:</b> <span id="invoiceID"></span><br>
-            <b>Customer Name:</b> <span id="customerName"></span>
-        </div>
-        <div>
-            <b>Date:</b> <span id="invoiceDate"></span><br>
-            <b>Phone:</b> <span id="customerPhone"></span>
-        </div>
+    <!-- INVOICE & CUSTOMER INFO -->
+    <div class="info-row">
+        <div><b>Invoice No:</b> <span id="invoiceID"></span></div>
+        <div><b>Date:</b> <span id="invoiceDate"></span></div>
     </div>
 
-    <hr class="line">
+    <div class="info-row">
+        <div><b>Customer Name:</b> <span id="customerName"></span></div>
+        <div><b>Phone:</b> <span id="customerPhone"></span></div>
+    </div>
+
+    <hr class="divider">
 
     <!-- TABLE -->
     <table class="item-table">
@@ -47,24 +48,23 @@
                 <th>Amount</th>
             </tr>
         </thead>
-        <tbody id="itemsBody">
-        </tbody>
+        <tbody id="itemTableBody"></tbody>
     </table>
 
-    <hr class="line">
+    <hr class="divider">
 
     <!-- TOTALS -->
     <div class="totals">
-        <p><b>Total Amount:</b> ₹<span id="totalAmount"></span></p>
-        <p><b>Paid Amount:</b> ₹<span id="paidAmount"></span></p>
-        <p><b>Balance:</b> ₹<span id="balance"></span></p>
-        <p><b>Amount in words:</b> <i><span id="amountWords"></span></i></p>
+        <div><b>Total Amount:</b> ₹<span id="totalAmount"></span></div>
+        <div><b>Paid Amount:</b> ₹<span id="paidAmount"></span></div>
+        <div><b>Balance:</b> ₹<span id="balance"></span></div>
+        <div><b>Amount in words:</b> <i><span id="amountWords"></span></i></div>
     </div>
 
-    <hr class="line">
+    <hr class="divider">
 
     <!-- NOTES -->
-    <div class="notes-section">
+    <div class="notes">
         <b>Notes:</b><br>
         <span id="notes"></span>
     </div>
@@ -72,78 +72,77 @@
     <br><br>
 
     <!-- SIGNATURE -->
-    <div class="signature-box">
+    <div class="signature">
         <div class="sign-line"></div>
-        <div class="sign-text">Authorised Signature</div>
+        <div>Authorised Signature</div>
     </div>
 
     <!-- FOOTER -->
-    <p class="thanks">Thank you for your business! 🙏</p>
-    <p class="footer-note">This is a computer-generated invoice.</p>
+    <div class="footer">
+        Thank you for your business! 🙏 <br>
+        <small>This is a computer-generated invoice.</small>
+    </div>
 
 </div>
 
 <script>
-// Read URL Parameters
+// Get URL params
 const p = new URLSearchParams(window.location.search);
 
-// Basic fields
-document.getElementById("invoiceID").innerText = p.get("invoiceID") || "";
-document.getElementById("invoiceDate").innerText = p.get("invoiceDate") || "";
-document.getElementById("customerName").innerText = p.get("customerName") || "";
-document.getElementById("customerPhone").innerText = p.get("customerPhone") || "";
-document.getElementById("totalAmount").innerText = p.get("totalAmount") || "0";
-document.getElementById("paidAmount").innerText = p.get("paidAmount") || "0";
-document.getElementById("balance").innerText = p.get("balance") || "0";
-document.getElementById("notes").innerText = p.get("notes") || "None";
+// Fill simple values
+document.getElementById("invoiceID").innerText = p.get("invoiceID");
+document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
+document.getElementById("customerName").innerText = p.get("customerName");
+document.getElementById("customerPhone").innerText = p.get("customerPhone");
+document.getElementById("paidAmount").innerText = p.get("paidAmount");
+document.getElementById("balance").innerText = p.get("balance");
+document.getElementById("notes").innerText = p.get("notes");
 
-// MULTI-ITEM HANDLING
-// Format expected: items=GN|100|10000,SP|200|24000
-const itemsParam = p.get("items");
 
-if (itemsParam) {
-    const rows = itemsParam.split(",");
-    let html = "";
+// MULTI-ITEM PARSE
+let itemsRaw = p.get("items");
+itemsRaw = decodeURIComponent(itemsRaw);
 
-    rows.forEach(r => {
-        const cols = r.split("|");
-        html += `
+let items = [];
+try { items = JSON.parse(itemsRaw); } 
+catch(e) { console.log("JSON Parse Error:", e); }
+
+// Build table rows
+let total = 0;
+let html = "";
+
+items.forEach(item => {
+    let amount = item.qty * item.rate;
+    total += amount;
+
+    html += `
         <tr>
-            <td>${cols[0]}</td>
-            <td>${cols[1]}</td>
-            <td>₹${cols[2]}</td>
-            <td>₹${cols[3]}</td>
+            <td>${item.desc}</td>
+            <td>${item.qty}</td>
+            <td>₹${item.rate}</td>
+            <td>₹${amount}</td>
         </tr>`;
-    });
+});
 
-    document.getElementById("itemsBody").innerHTML = html;
-}
+document.getElementById("itemTableBody").innerHTML = html;
 
-// AMOUNT IN WORDS
+// Display totals
+document.getElementById("totalAmount").innerText = total;
+
+// Convert amount to words
 function numberToWords(num) {
-    const a = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten",
-        "Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
+    const a = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
     const b = ["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
 
-    if ((num = num.toString()).length > 9) return "Overflow";
-
-    let n = ("000000000" + num).substr(-9).match(/.{1,2}|.{1,1}/g);
-    if (!n) return "";
-
-    let str = "";
-    str += (n[0] != 0) ? a[Number(n[0])] + " Crore " : "";
-    str += (n[1] != 0) ? a[Number(n[1])] + " Lakh " : "";
-    str += (n[2] != 0) ? a[Number(n[2])] + " Thousand " : "";
-    str += (n[3] != 0) ? a[Number(n[3])] + " Hundred " : "";
-    str += (n[4] != 0) ?
-        ((str != "") ? "and " : "") + (n[4] < 20 ? a[Number(n[4])] : b[n[4][0]] + " " + a[n[4][1]]) + " " :
-        "";
-
-    return str.trim() + " Only";
+    if (num < 20) return a[num];
+    if (num < 100) return b[Math.floor(num/10)] + " " + a[num%10];
+    if (num < 1000) return a[Math.floor(num/100)] + " Hundred " + numberToWords(num%100);
+    if (num < 100000) return numberToWords(Math.floor(num/1000)) + " Thousand " + numberToWords(num%1000);
+    return "";
 }
 
 document.getElementById("amountWords").innerText =
-    numberToWords(parseInt(p.get("totalAmount") || "0"));
+    numberToWords(total) + " Only";
 
 </script>
 
