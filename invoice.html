@@ -33,61 +33,97 @@
         border-radius: 6px;
     }
 
+    /* Invoice Info Table Layout Fix */
     .info-table {
         width: 100%;
         margin-top: 15px;
+        border-collapse: collapse;
         font-size: 14px;
     }
 
-    .info-table td {
-        padding: 4px 6px;
-        vertical-align: top;
+    .left-col {
+        width: 50%;
+        padding: 6px;
+        text-align: left;
     }
 
-    /* Fix Date / Phone alignment */
-    .right {
+    .right-col {
+        width: 50%;
+        padding: 6px;
         text-align: right;
     }
 
     /* Table styling */
-    table {
+    table.product-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 15px;
+        margin-top: 20px;
+    }
+
+    thead th {
+        background: #f2f2f2;
+        font-weight: bold;
     }
 
     th, td {
         border: 1px solid #ccc;
         padding: 10px;
         font-size: 14px;
-        text-align: center;
     }
 
-    /* Increase Description space */
     th.desc-col, td.desc-col {
         width: 45%;
         text-align: left;
     }
 
-    th.qty-col, td.qty-col { width: 15%; }
-    th.rate-col, td.rate-col { width: 15%; }
-    th.amount-col, td.amount-col { width: 25%; }
+    th.qty-col, td.qty-col {
+        width: 15%;
+        text-align: center;
+    }
 
+    th.rate-col, td.rate-col {
+        width: 15%;
+        text-align: center;
+    }
+
+    th.amount-col, td.amount-col {
+        width: 25%;
+        text-align: center;
+    }
+
+    /* Totals section with soft grey background */
     .totals {
         margin-top: 20px;
+        padding: 15px;
+        background: #fafafa;
+        border-radius: 6px;
+        border: 1px solid #eee;
         font-size: 15px;
     }
 
     .totals p {
-        margin: 5px 0;
+        margin: 6px 0;
     }
 
-    /* Notes section fix */
-    #notes {
+    /* Notes box styling */
+    #notes-box {
+        margin-top: 10px;
+        background: #fafafa;
+        border: 1px solid #eee;
+        padding: 10px;
+        border-radius: 6px;
         white-space: pre-wrap;
         word-wrap: break-word;
         font-size: 14px;
-        margin-top: 8px;
+        min-height: 40px;
+    }
+
+    /* Signature */
+    .signature {
+        margin-top: 40px;
+        text-align: right;
+        margin-right: 40px;
+        font-size: 14px;
     }
 
     .footer {
@@ -96,23 +132,16 @@
         font-size: 12px;
         color: #666;
     }
-
-    .signature {
-        margin-top: 40px;
-        text-align: right;
-        margin-right: 40px;
-        font-size: 14px;
-    }
 </style>
-
 </head>
+
 <body>
 
 <div class="invoice-container">
-    
+
     <div class="header">
         <div class="logo">
-            <img src="logo.png" />
+            <img src="logo.png" alt="Logo" />
         </div>
         <h2>SRI SWAMY AYYAPPA TRADERS</h2>
         <p>
@@ -122,20 +151,20 @@
         </p>
     </div>
 
-    <!-- Invoice Info -->
+    <!-- Invoice Information -->
     <table class="info-table">
         <tr>
-            <td><b>Invoice No:</b> <span id="invoiceID"></span></td>
-            <td class="right"><b>Date:</b> <span id="invoiceDate"></span></td>
+            <td class="left-col"><b>Invoice No:</b> <span id="invoiceID"></span></td>
+            <td class="right-col"><b>Date:</b> <span id="invoiceDate"></span></td>
         </tr>
         <tr>
-            <td><b>Customer Name:</b> <span id="customerName"></span></td>
-            <td class="right"><b>Phone:</b> <span id="customerPhone"></span></td>
+            <td class="left-col"><b>Customer Name:</b> <span id="customerName"></span></td>
+            <td class="right-col"><b>Phone:</b> <span id="customerPhone"></span></td>
         </tr>
     </table>
 
     <!-- Product Table -->
-    <table>
+    <table class="product-table">
         <thead>
             <tr>
                 <th class="desc-col">Description</th>
@@ -161,7 +190,6 @@
 
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
 
-        <!-- Amount in Words -->
         <p><b>Amount in Words:</b> <span id="amountInWords"></span></p>
 
         <p><b>Paid Amount: ₹</b><span id="paidAmount"></span></p>
@@ -169,10 +197,11 @@
         <p><b>Balance: ₹</b><span id="balance"></span></p>
     </div>
 
-    <!-- Notes -->
+    <!-- Notes Section -->
     <p><b>Notes:</b></p>
-    <div id="notes"></div>
+    <div id="notes-box"></div>
 
+    <!-- Signature -->
     <div class="signature">
         _______________________<br />
         Authorised Signature
@@ -189,22 +218,24 @@
 // Read URL parameters
 const p = new URLSearchParams(window.location.search);
 
-// Fill fields
+// Assign values to HTML
 document.getElementById("invoiceID").innerText = p.get("invoiceID");
 document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
 document.getElementById("customerName").innerText = p.get("customerName");
 document.getElementById("customerPhone").innerText = p.get("customerPhone");
+
 document.getElementById("groundNutType").innerText = p.get("groundNutType");
 document.getElementById("qty").innerText = p.get("qty");
 document.getElementById("rate").innerText = p.get("rate");
 document.getElementById("amount").innerText = p.get("amount");
+
 document.getElementById("otherCharges").innerText = p.get("otherCharges") || "0";
 document.getElementById("totalAmount").innerText = p.get("totalAmount");
 document.getElementById("paidAmount").innerText = p.get("paidAmount");
 document.getElementById("balance").innerText = p.get("balance");
-document.getElementById("notes").innerText = p.get("notes") || "";
+document.getElementById("notes-box").innerText = p.get("notes") || "";
 
-// Convert number to words (Indian Rupees format)
+/* Convert Amount to Words (Indian Rupees Format) */
 function numberToWords(num) {
     const a = [
         "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
@@ -232,9 +263,8 @@ function numberToWords(num) {
     return words + " Only";
 }
 
-// Convert Total Amount → Words
-let total = p.get("totalAmount") || "0";
-document.getElementById("amountInWords").innerText = numberToWords(total);
+// Set Amount in Words
+document.getElementById("amountInWords").innerText = numberToWords(p.get("totalAmount") || "0");
 
 </script>
 
