@@ -1,4 +1,5 @@
 <style>
+    /* Base Screen View */
     body {
         font-family: "Segoe UI", Arial, sans-serif;
         background: #f2f2f2;
@@ -9,11 +10,12 @@
     }
 
     .invoice-container {
-        max-width: 760px;
+        width: 100%;
+        max-width: 1000px;
         background: white;
-        margin: 20px auto;
+        margin: 0 auto;
         padding: 25px;
-        border-radius: 8px;
+        border-radius: 6px;
         box-shadow: 0 0 8px rgba(0,0,0,0.15);
     }
 
@@ -23,53 +25,55 @@
     }
 
     .logo {
-        width: 70px;
+        width: 80px;
         border-radius: 8px;
+        margin-bottom: 5px;
     }
 
     .title {
-        font-size: 22px;
+        font-size: 26px;
         font-weight: bold;
         margin-bottom: 5px;
     }
 
     .address {
-        font-size: 13px;
+        font-size: 14px;
         line-height: 1.4;
     }
 
     .info-table {
         width: 100%;
-        margin-top: 15px;
         border-collapse: collapse;
-        font-size: 14px;
+        margin-top: 15px;
+        font-size: 15px;
     }
     .info-table td {
         padding: 6px;
-    }
-
-    hr {
-        border: none;
-        border-top: 1px solid #ccc;
-        margin: 12px 0;
+        vertical-align: top;
     }
 
     .items-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
-        font-size: 14px;
+        margin-top: 12px;
+        font-size: 15px;
     }
     .items-table th {
-        background: #e6e6e6 !important;
+        background: #e4e4e4 !important;
         padding: 10px;
         text-align: center;
-        border: 1px solid #999 !important;
+        border: 1px solid #444 !important;
     }
     .items-table td {
         padding: 10px;
         text-align: center;
-        border: 1px solid #999 !important;
+        border: 1px solid #444 !important;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 15px 0;
     }
 
     .totals p {
@@ -80,7 +84,7 @@
     .signature {
         margin-top: 50px;
         text-align: right;
-        font-size: 14px;
+        font-size: 15px;
     }
 
     .footer {
@@ -90,42 +94,42 @@
         color: #555;
     }
 
-    /* ⭐ PRINT FIX — STRONGEST SETTINGS ⭐ */
+    /* ⭐⭐⭐ PRINT MODE — Full Width, No Margins, Perfect GST Invoice ⭐⭐⭐ */
     @media print {
 
-        /* Full width printable area */
         @page {
-            size: A4;
-            margin: 8mm !important;
+            size: A4 portrait;
+            margin: 0mm !important;
         }
 
-        body {
-            background: white !important;
-            margin: 0 !important;
+        html, body {
+            width: 210mm !important;
+            height: auto !important;
             padding: 0 !important;
-            -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
+            margin: 0 !important;
+            background: white !important;
         }
 
         .invoice-container {
-            margin: 0 !important;
-            padding: 10mm !important;
             width: 100% !important;
-            box-shadow: none !important;
+            max-width: 100% !important;
+            padding: 12mm !important;
+            margin: 0 !important;
             border-radius: 0 !important;
-            border: 1px solid #000 !important;
+            box-shadow: none !important;
+            border: none !important;
         }
 
-        /* Ensure tables don’t cut off */
         .items-table th,
         .items-table td {
             border: 1px solid #000 !important;
             -webkit-print-color-adjust: exact !important;
-            print-color-adjust: exact !important;
         }
 
-        .items-table th {
-            background: #d9d9d9 !important;
+        /* Remove grey browser preview margin */
+        body {
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
         }
     }
 </style>
