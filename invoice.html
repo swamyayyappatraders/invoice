@@ -1,45 +1,144 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Invoice</title>
-<link rel="stylesheet" href="style.css">
+
+<style>
+    body {
+        font-family: "Segoe UI", Arial, sans-serif;
+        background: #f2f2f2;
+        margin: 0;
+        padding: 0;
+    }
+
+    .invoice-container {
+        max-width: 760px;
+        background: white;
+        margin: 20px auto;
+        padding: 25px;
+        border-radius: 8px;
+        box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 15px;
+    }
+
+    .logo {
+        width: 70px;
+        border-radius: 8px;
+    }
+
+    .title {
+        font-size: 22px;
+        font-weight: bold;
+        margin-bottom: 5px;
+    }
+
+    .address {
+        font-size: 13px;
+        line-height: 1.4;
+    }
+
+    .info-table {
+        width: 100%;
+        margin-top: 15px;
+        border-collapse: collapse;
+        font-size: 14px;
+    }
+    .info-table td {
+        padding: 6px;
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #ccc;
+        margin: 12px 0;
+    }
+
+    .items-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+        font-size: 14px;
+    }
+    .items-table th {
+        background: #efefef;
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+    .items-table td {
+        padding: 10px;
+        text-align: center;
+        border: 1px solid #ccc;
+    }
+
+    .totals p {
+        font-size: 15px;
+        margin: 5px 0;
+    }
+
+    .signature {
+        margin-top: 50px;
+        text-align: right;
+        font-size: 14px;
+    }
+
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        font-size: 13px;
+        color: #777;
+    }
+
+    /* PRINT SAFE CSS */
+    @media print {
+        body {
+            background: white !important;
+        }
+        .invoice-container {
+            box-shadow: none !important;
+            border: none !important;
+            width: 100% !important;
+            margin: 0 !important;
+            padding: 15px !important;
+        }
+    }
+</style>
 </head>
 
 <body>
 
-<div class="invoice-wrapper">
+<div class="invoice-container">
 
-    <!-- HEADER -->
     <div class="header">
         <img src="logo.png" class="logo">
-        <div class="company-info">
-            <h2>SRI SWAMY AYYAPPA TRADERS</h2>
-            <p>
-                Mahatma Gandhi Wholesale Commercial Complex<br>
-                Shop No 397, Gollapudi, Vijayawada – 521225<br>
-                <b>GSTIN:</b> 37AUTPV5283H1ZO
-            </p>
-        </div>
+        <h2 class="title">SRI SWAMY AYYAPPA TRADERS</h2>
+        <p class="address">
+            Mahatma Gandhi Wholesale Commercial Complex<br>
+            Shop No 397, Gollapudi, Vijayawada – 521225<br>
+            <b>GSTIN:</b> 37AUTPV5283H1ZO
+        </p>
     </div>
 
-    <hr class="divider">
+    <table class="info-table">
+        <tr>
+            <td><b>Invoice No:</b> <span id="invoiceID"></span></td>
+            <td><b>Date:</b> <span id="invoiceDate"></span></td>
+        </tr>
+        <tr>
+            <td><b>Customer Name:</b> <span id="customerName"></span></td>
+            <td><b>Phone:</b> <span id="customerPhone"></span></td>
+        </tr>
+    </table>
 
-    <!-- INVOICE & CUSTOMER INFO -->
-    <div class="info-row">
-        <div><b>Invoice No:</b> <span id="invoiceID"></span></div>
-        <div><b>Date:</b> <span id="invoiceDate"></span></div>
-    </div>
+    <hr>
 
-    <div class="info-row">
-        <div><b>Customer Name:</b> <span id="customerName"></span></div>
-        <div><b>Phone:</b> <span id="customerPhone"></span></div>
-    </div>
-
-    <hr class="divider">
-
-    <!-- TABLE -->
-    <table class="item-table">
+    <table class="items-table">
         <thead>
             <tr>
                 <th>Description</th>
@@ -48,102 +147,60 @@
                 <th>Amount</th>
             </tr>
         </thead>
-        <tbody id="itemTableBody"></tbody>
+        <tbody>
+            <tr>
+                <td id="description"></td>
+                <td id="qty"></td>
+                <td id="rate"></td>
+                <td id="amount"></td>
+            </tr>
+        </tbody>
     </table>
 
-    <hr class="divider">
+    <hr>
 
-    <!-- TOTALS -->
     <div class="totals">
-        <div><b>Total Amount:</b> ₹<span id="totalAmount"></span></div>
-        <div><b>Paid Amount:</b> ₹<span id="paidAmount"></span></div>
-        <div><b>Balance:</b> ₹<span id="balance"></span></div>
-        <div><b>Amount in words:</b> <i><span id="amountWords"></span></i></div>
+        <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
+        <p><b>Paid Amount: ₹</b><span id="paidAmount"></span></p>
+        <p><b>Balance: ₹</b><span id="balance"></span></p>
     </div>
 
-    <hr class="divider">
+    <hr>
 
-    <!-- NOTES -->
-    <div class="notes">
-        <b>Notes:</b><br>
-        <span id="notes"></span>
-    </div>
+    <p><b>Notes:</b></p>
+    <p id="notes"></p>
 
-    <br><br>
-
-    <!-- SIGNATURE -->
     <div class="signature">
-        <div class="sign-line"></div>
-        <div>Authorised Signature</div>
+        ___________________________<br>
+        Authorised Signature
     </div>
 
-    <!-- FOOTER -->
     <div class="footer">
-        Thank you for your business! 🙏 <br>
+        Thank you for your business! 🙏<br>
         <small>This is a computer-generated invoice.</small>
     </div>
 
 </div>
 
 <script>
-// Get URL params
-const p = new URLSearchParams(window.location.search);
+    const p = new URLSearchParams(window.location.search);
 
-// Fill simple values
-document.getElementById("invoiceID").innerText = p.get("invoiceID");
-document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
-document.getElementById("customerName").innerText = p.get("customerName");
-document.getElementById("customerPhone").innerText = p.get("customerPhone");
-document.getElementById("paidAmount").innerText = p.get("paidAmount");
-document.getElementById("balance").innerText = p.get("balance");
-document.getElementById("notes").innerText = p.get("notes");
+    document.getElementById("invoiceID").innerText = p.get("invoiceID") || "";
+    document.getElementById("invoiceDate").innerText = p.get("invoiceDate") || "";
+    document.getElementById("customerName").innerText = p.get("customerName") || "";
+    document.getElementById("customerPhone").innerText = p.get("customerPhone") || "";
 
+    // Description = GroundNutType (Option A)
+    document.getElementById("description").innerText = p.get("groundNutType") || "";
 
-// MULTI-ITEM PARSE
-let itemsRaw = p.get("items");
-itemsRaw = decodeURIComponent(itemsRaw);
+    document.getElementById("qty").innerText = p.get("qty") || "";
+    document.getElementById("rate").innerText = p.get("rate") || "";
+    document.getElementById("amount").innerText = p.get("amount") || "";
 
-let items = [];
-try { items = JSON.parse(itemsRaw); } 
-catch(e) { console.log("JSON Parse Error:", e); }
-
-// Build table rows
-let total = 0;
-let html = "";
-
-items.forEach(item => {
-    let amount = item.qty * item.rate;
-    total += amount;
-
-    html += `
-        <tr>
-            <td>${item.desc}</td>
-            <td>${item.qty}</td>
-            <td>₹${item.rate}</td>
-            <td>₹${amount}</td>
-        </tr>`;
-});
-
-document.getElementById("itemTableBody").innerHTML = html;
-
-// Display totals
-document.getElementById("totalAmount").innerText = total;
-
-// Convert amount to words
-function numberToWords(num) {
-    const a = ["","One","Two","Three","Four","Five","Six","Seven","Eight","Nine","Ten","Eleven","Twelve","Thirteen","Fourteen","Fifteen","Sixteen","Seventeen","Eighteen","Nineteen"];
-    const b = ["","","Twenty","Thirty","Forty","Fifty","Sixty","Seventy","Eighty","Ninety"];
-
-    if (num < 20) return a[num];
-    if (num < 100) return b[Math.floor(num/10)] + " " + a[num%10];
-    if (num < 1000) return a[Math.floor(num/100)] + " Hundred " + numberToWords(num%100);
-    if (num < 100000) return numberToWords(Math.floor(num/1000)) + " Thousand " + numberToWords(num%1000);
-    return "";
-}
-
-document.getElementById("amountWords").innerText =
-    numberToWords(total) + " Only";
-
+    document.getElementById("totalAmount").innerText = p.get("totalAmount") || "";
+    document.getElementById("paidAmount").innerText = p.get("paidAmount") || "";
+    document.getElementById("balance").innerText = p.get("balance") || "";
+    document.getElementById("notes").innerText = p.get("notes") || "";
 </script>
 
 </body>
