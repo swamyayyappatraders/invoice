@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Invoice</title>
 
 <style>
@@ -10,16 +11,16 @@
         font-family: "Segoe UI", Arial, sans-serif;
         background: #f2f2f2;
         margin: 0;
-        padding: 0;
+        padding: 20px;
     }
 
     .invoice-container {
-        max-width: 760px;
+        width: 800px;
         background: white;
         margin: 20px auto;
         padding: 25px;
+        border: 1px solid #ddd;
         border-radius: 8px;
-        box-shadow: 0 0 8px rgba(0,0,0,0.1);
     }
 
     .header {
@@ -27,180 +28,214 @@
         margin-bottom: 15px;
     }
 
-    .logo {
-        width: 70px;
-        border-radius: 8px;
-    }
-
-    .title {
-        font-size: 22px;
-        font-weight: bold;
-        margin-bottom: 5px;
-    }
-
-    .address {
-        font-size: 13px;
-        line-height: 1.4;
+    .logo img {
+        width: 80px;
+        border-radius: 6px;
     }
 
     .info-table {
         width: 100%;
         margin-top: 15px;
-        border-collapse: collapse;
         font-size: 14px;
     }
+
     .info-table td {
-        padding: 6px;
+        padding: 4px 6px;
+        vertical-align: top;
     }
 
-    hr {
-        border: none;
-        border-top: 1px solid #ccc;
-        margin: 12px 0;
+    /* Fix Date / Phone alignment */
+    .right {
+        text-align: right;
     }
 
-    .items-table {
+    /* Table styling */
+    table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
+        margin-top: 15px;
+    }
+
+    th, td {
+        border: 1px solid #ccc;
+        padding: 10px;
         font-size: 14px;
-    }
-    .items-table th {
-        background: #efefef;
-        padding: 10px;
         text-align: center;
-        border: 1px solid #ccc;
     }
-    .items-table td {
-        padding: 10px;
-        text-align: center;
-        border: 1px solid #ccc;
+
+    /* Increase Description space */
+    th.desc-col, td.desc-col {
+        width: 45%;
+        text-align: left;
+    }
+
+    th.qty-col, td.qty-col { width: 15%; }
+    th.rate-col, td.rate-col { width: 15%; }
+    th.amount-col, td.amount-col { width: 25%; }
+
+    .totals {
+        margin-top: 20px;
+        font-size: 15px;
     }
 
     .totals p {
-        font-size: 15px;
         margin: 5px 0;
     }
 
-    .signature {
-        margin-top: 50px;
-        text-align: right;
+    /* Notes section fix */
+    #notes {
+        white-space: pre-wrap;
+        word-wrap: break-word;
         font-size: 14px;
+        margin-top: 8px;
     }
 
     .footer {
-        margin-top: 40px;
         text-align: center;
-        font-size: 13px;
-        color: #777;
+        margin-top: 30px;
+        font-size: 12px;
+        color: #666;
     }
 
-    /* PRINT SAFE CSS */
-    @media print {
-        body {
-            background: white !important;
-        }
-        .invoice-container {
-            box-shadow: none !important;
-            border: none !important;
-            width: 100% !important;
-            margin: 0 !important;
-            padding: 15px !important;
-        }
+    .signature {
+        margin-top: 40px;
+        text-align: right;
+        margin-right: 40px;
+        font-size: 14px;
     }
 </style>
-</head>
 
+</head>
 <body>
 
 <div class="invoice-container">
-
+    
     <div class="header">
-        <img src="logo.png" class="logo">
-        <h2 class="title">SRI SWAMY AYYAPPA TRADERS</h2>
-        <p class="address">
-            Mahatma Gandhi Wholesale Commercial Complex<br>
-            Shop No 397, Gollapudi, Vijayawada – 521225<br>
+        <div class="logo">
+            <img src="logo.png" />
+        </div>
+        <h2>SRI SWAMY AYYAPPA TRADERS</h2>
+        <p>
+            Mahatma Gandhi Wholesale Commercial Complex<br />
+            Shop No 397, Gollapudi, Vijayawada – 521225<br />
             <b>GSTIN:</b> 37AUTPV5283H1ZO
         </p>
     </div>
 
+    <!-- Invoice Info -->
     <table class="info-table">
         <tr>
             <td><b>Invoice No:</b> <span id="invoiceID"></span></td>
-            <td><b>Date:</b> <span id="invoiceDate"></span></td>
+            <td class="right"><b>Date:</b> <span id="invoiceDate"></span></td>
         </tr>
         <tr>
             <td><b>Customer Name:</b> <span id="customerName"></span></td>
-            <td><b>Phone:</b> <span id="customerPhone"></span></td>
+            <td class="right"><b>Phone:</b> <span id="customerPhone"></span></td>
         </tr>
     </table>
 
-    <hr>
-
-    <table class="items-table">
+    <!-- Product Table -->
+    <table>
         <thead>
             <tr>
-                <th>Description</th>
-                <th>Qty (KG)</th>
-                <th>Rate</th>
-                <th>Amount</th>
+                <th class="desc-col">Description</th>
+                <th class="qty-col">Qty (KG)</th>
+                <th class="rate-col">Rate</th>
+                <th class="amount-col">Amount</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td id="description"></td>
-                <td id="qty"></td>
-                <td id="rate"></td>
-                <td id="amount"></td>
+                <td class="desc-col" id="groundNutType"></td>
+                <td class="qty-col" id="qty"></td>
+                <td class="rate-col" id="rate"></td>
+                <td class="amount-col" id="amount"></td>
             </tr>
         </tbody>
     </table>
 
-    <hr>
-
+    <!-- Totals Section -->
     <div class="totals">
+
+        <p><b>Additional Charges: ₹</b><span id="otherCharges"></span></p>
+
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
+
+        <!-- Amount in Words -->
+        <p><b>Amount in Words:</b> <span id="amountInWords"></span></p>
+
         <p><b>Paid Amount: ₹</b><span id="paidAmount"></span></p>
+
         <p><b>Balance: ₹</b><span id="balance"></span></p>
     </div>
 
-    <hr>
-
+    <!-- Notes -->
     <p><b>Notes:</b></p>
-    <p id="notes"></p>
+    <div id="notes"></div>
 
     <div class="signature">
-        ___________________________<br>
+        _______________________<br />
         Authorised Signature
     </div>
 
     <div class="footer">
-        Thank you for your business! 🙏<br>
-        <small>This is a computer-generated invoice.</small>
+        Thank you for your business! 🙏 <br />
+        This is a computer-generated invoice.
     </div>
 
 </div>
 
 <script>
-    const p = new URLSearchParams(window.location.search);
+// Read URL parameters
+const p = new URLSearchParams(window.location.search);
 
-    document.getElementById("invoiceID").innerText = p.get("invoiceID") || "";
-    document.getElementById("invoiceDate").innerText = p.get("invoiceDate") || "";
-    document.getElementById("customerName").innerText = p.get("customerName") || "";
-    document.getElementById("customerPhone").innerText = p.get("customerPhone") || "";
+// Fill fields
+document.getElementById("invoiceID").innerText = p.get("invoiceID");
+document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
+document.getElementById("customerName").innerText = p.get("customerName");
+document.getElementById("customerPhone").innerText = p.get("customerPhone");
+document.getElementById("groundNutType").innerText = p.get("groundNutType");
+document.getElementById("qty").innerText = p.get("qty");
+document.getElementById("rate").innerText = p.get("rate");
+document.getElementById("amount").innerText = p.get("amount");
+document.getElementById("otherCharges").innerText = p.get("otherCharges") || "0";
+document.getElementById("totalAmount").innerText = p.get("totalAmount");
+document.getElementById("paidAmount").innerText = p.get("paidAmount");
+document.getElementById("balance").innerText = p.get("balance");
+document.getElementById("notes").innerText = p.get("notes") || "";
 
-    // Description = GroundNutType (Option A)
-    document.getElementById("description").innerText = p.get("groundNutType") || "";
+// Convert number to words (Indian Rupees format)
+function numberToWords(num) {
+    const a = [
+        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+        "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
+        "Seventeen", "Eighteen", "Nineteen"
+    ];
+    const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 
-    document.getElementById("qty").innerText = p.get("qty") || "";
-    document.getElementById("rate").innerText = p.get("rate") || "";
-    document.getElementById("amount").innerText = p.get("amount") || "";
+    function inWords(n) {
+        if (n < 20) return a[n];
+        if (n < 100) return b[Math.floor(n / 10)] + (n % 10 ? " " + a[n % 10] : "");
+        if (n < 1000) return a[Math.floor(n / 100)] + " Hundred " + inWords(n % 100);
+        if (n < 100000) return inWords(Math.floor(n / 1000)) + " Thousand " + inWords(n % 1000);
+        if (n < 10000000) return inWords(Math.floor(n / 100000)) + " Lakh " + inWords(n % 100000);
+        return "";
+    }
 
-    document.getElementById("totalAmount").innerText = p.get("totalAmount") || "";
-    document.getElementById("paidAmount").innerText = p.get("paidAmount") || "";
-    document.getElementById("balance").innerText = p.get("balance") || "";
-    document.getElementById("notes").innerText = p.get("notes") || "";
+    let [rupees, paise] = num.split(".");
+    rupees = parseInt(rupees);
+    paise = paise ? parseInt(paise) : 0;
+
+    let words = inWords(rupees) + " Rupees";
+    if (paise > 0) words += " and " + inWords(paise) + " Paise";
+
+    return words + " Only";
+}
+
+// Convert Total Amount → Words
+let total = p.get("totalAmount") || "0";
+document.getElementById("amountInWords").innerText = numberToWords(total);
+
 </script>
 
 </body>
