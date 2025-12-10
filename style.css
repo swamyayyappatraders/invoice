@@ -187,3 +187,15 @@ th, td {
 .product-table td#amount {
     text-align: right !important;
 }
+
+/* FIX INFO-CELL ALIGNMENT */
+.info-cell {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100% !important;
+}
+
+.label {
+    font-weight: bold;
+}
