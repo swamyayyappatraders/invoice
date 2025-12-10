@@ -33,39 +33,43 @@
         border-radius: 6px;
     }
 
-    /* ================= INFO TABLE ================ */
+    /* ========= INFO TABLE (fixed alignment) ========== */
     .info-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 15px;
         font-size: 14px;
-        table-layout: fixed;
+        margin-top: 15px;
     }
 
-    .info-table td {
-        padding: 5px 4px;
+    .info-row {
+        display: flex;
+        justify-content: space-between;
         border-bottom: 1px solid #eee;
-        vertical-align: middle;
+        padding: 6px 0;
     }
 
-    .info-table tr:last-child td {
-        border-bottom: none;
+    .info-col {
+        width: 50%;
+        display: flex;
+        justify-content: space-between;
+        padding: 3px 5px;
     }
 
     .label {
         font-weight: bold;
+        margin-right: 5px;
     }
 
-    /* align fields cleanly */
-    .info-left {
-        text-align: left;
+    /* GSTIN + Address full width */
+    .info-full {
+        width: 100%;
+        border-bottom: 1px solid #eee;
+        padding: 6px 5px;
+        display: flex;
+        justify-content: flex-start;
     }
 
-    .info-right {
-        text-align: right;
-    }
-
-    /* ================= PRODUCT TABLE ================ */
+    /* ============= PRODUCT TABLE ============= */
     table.product-table {
         width: 100%;
         border-collapse: collapse;
@@ -73,19 +77,17 @@
         table-layout: fixed;
     }
 
-    thead th {
+    table.product-table th {
         background: #f2f2f2;
-        font-weight: bold;
-        text-align: center;
         border: 1px solid #ccc;
         padding: 10px;
+        text-align: center;
     }
 
-    tbody td {
+    table.product-table td {
         border: 1px solid #ccc;
         padding: 10px;
         text-align: center;
-        font-size: 14px;
     }
 
     #groundNutType {
@@ -96,7 +98,6 @@
         text-align: right !important;
     }
 
-    /* ================= TOTALS BOX ================ */
     .totals {
         margin-top: 20px;
         padding: 15px;
@@ -112,9 +113,7 @@
         border: 1px solid #eee;
         padding: 10px;
         border-radius: 6px;
-        min-height: 40px;
         white-space: pre-wrap;
-        font-size: 14px;
     }
 
     .signature {
@@ -149,30 +148,42 @@
         </p>
     </div>
 
-    <!-- INVOICE INFO -->
-    <table class="info-table">
-        <tr>
-            <td class="info-left"><span class="label">Invoice No:</span> <span id="invoiceID"></span></td>
-            <td class="info-right"><span class="label">Date:</span> <span id="invoiceDate"></span></td>
-        </tr>
+    <!-- INFO TABLE -->
+    <div class="info-table">
 
-        <tr>
-            <td class="info-left"><span class="label">Customer Name:</span> <span id="customerName"></span></td>
-            <td class="info-right"><span class="label">Phone:</span> <span id="customerPhone"></span></td>
-        </tr>
+        <div class="info-row">
+            <div class="info-col">
+                <span class="label">Invoice No:</span>
+                <span id="invoiceID"></span>
+            </div>
+            <div class="info-col">
+                <span class="label">Date:</span>
+                <span id="invoiceDate"></span>
+            </div>
+        </div>
 
-        <tr id="gstRow">
-            <td colspan="2" class="info-left">
-                <span class="label">GSTIN:</span> <span id="customerGSTIN"></span>
-            </td>
-        </tr>
+        <div class="info-row">
+            <div class="info-col">
+                <span class="label">Customer Name:</span>
+                <span id="customerName"></span>
+            </div>
+            <div class="info-col">
+                <span class="label">Phone:</span>
+                <span id="customerPhone"></span>
+            </div>
+        </div>
 
-        <tr id="addressRow">
-            <td colspan="2" class="info-left">
-                <span class="label">Address:</span> <span id="customerAddress"></span>
-            </td>
-        </tr>
-    </table>
+        <div class="info-full" id="gstRow">
+            <span class="label">GSTIN:</span>
+            <span id="customerGSTIN"></span>
+        </div>
+
+        <div class="info-full" id="addressRow">
+            <span class="label">Address:</span>
+            <span id="customerAddress"></span>
+        </div>
+
+    </div>
 
     <!-- PRODUCT TABLE -->
     <table class="product-table">
@@ -194,7 +205,6 @@
         </tbody>
     </table>
 
-    <!-- TOTALS SECTION -->
     <div class="totals">
         <p><b>Additional Charges: ₹</b><span id="otherCharges"></span></p>
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
@@ -243,12 +253,11 @@ document.getElementById("paidAmount").innerText = p.get("paidAmount");
 document.getElementById("balance").innerText = p.get("balance");
 document.getElementById("notes-box").innerText = p.get("notes") || "";
 
-/* Convert to Words */
+/* Convert to words */
 function numberToWords(num) {
     const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
         "Seventeen", "Eighteen", "Nineteen"];
-
     const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 
     function inWords(n) {
@@ -270,9 +279,7 @@ function numberToWords(num) {
     return words + " Only";
 }
 
-document.getElementById("amountInWords").innerText =
-    numberToWords(p.get("totalAmount") || "0");
-
+document.getElementById("amountInWords").innerText = numberToWords(p.get("totalAmount") || "0");
 </script>
 
 </body>
