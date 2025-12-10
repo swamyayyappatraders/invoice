@@ -185,7 +185,7 @@ th, td {
 
 /* AMOUNT — RIGHT */
 .product-table td#amount {
-    text-align: right !important;
+    text-align: center !important;
 }
 
 /* FIX INFO-CELL ALIGNMENT */
@@ -199,3 +199,4 @@ th, td {
 .label {
     font-weight: bold;
 }
+
