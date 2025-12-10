@@ -29,43 +29,36 @@ body {
     margin-bottom: 5px;
 }
 
-.title {
-    font-size: 26px;
-    font-weight: bold;
-    margin-bottom: 5px;
-}
-
-/* ============= INFO TABLE (Invoice No, Date, Customer, Phone, GSTIN, Address) ============= */
+/* ————— INFO TABLE ————— */
 
 .info-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 15px;
     font-size: 15px;
-    table-layout: fixed;   /* Ensures equal width columns */
+    table-layout: fixed;
 }
 
 .info-table td {
-    padding: 6px 4px;
+    padding: 8px 6px;
     vertical-align: middle;
-    width: 50%;        /* Each column occupies half width */
+    width: 50%;
 }
 
 .left-col {
-    text-align: left;
+    text-align: left !important;
 }
 
 .right-col {
-    text-align: right;
+    text-align: right !important;
 }
 
-/* ============= PRODUCT TABLE ============= */
+/* ————— PRODUCT TABLE ————— */
 
 .product-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
-    table-layout: fixed; /* More consistent alignment */
 }
 
 .product-table th {
@@ -75,23 +68,32 @@ body {
     border: 1px solid #444 !important;
 }
 
-.product-table td {
+/* GLOBAL CELL STYLE */
+th, td {
+    border: 1px solid #ccc;
     padding: 10px;
-    border: 1px solid #444 !important;
-    text-align: center;  /* Numeric columns center aligned */
+    font-size: 14px;
 }
 
-/* LEFT ALIGN DESCRIPTION */
+/* ————— THE FINAL ALIGNMENT FIX ————— */
+
 td#groundNutType {
     text-align: left !important;
 }
 
-/* RIGHT ALIGN AMOUNT */
+td#qty {
+    text-align: center !important;
+}
+
+td#rate {
+    text-align: center !important;
+}
+
 td#amount {
     text-align: right !important;
 }
 
-/* Totals section */
+/* Totals */
 .totals {
     margin-top: 20px;
     padding: 15px;
@@ -105,7 +107,7 @@ td#amount {
     margin: 5px 0;
 }
 
-/* Notes box */
+/* Notes */
 #notes-box {
     margin-top: 10px;
     background: #fafafa;
@@ -132,7 +134,6 @@ td#amount {
     color: #555;
 }
 
-/* ===================== PRINT MODE (Perfect A4 Print) ===================== */
 @media print {
 
     @page {
@@ -153,8 +154,8 @@ td#amount {
         padding: 12mm !important;
         margin: 0 !important;
         border-radius: 0 !important;
-        box-shadow: none !important;
         border: none !important;
+        box-shadow: none !important;
     }
 
     .product-table th,
