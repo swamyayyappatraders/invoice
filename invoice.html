@@ -41,13 +41,11 @@
     }
 
     .left-col {
-        width: 50%;
         padding: 6px;
         text-align: left;
     }
 
     .right-col {
-        width: 50%;
         padding: 6px;
         text-align: right;
     }
@@ -69,26 +67,6 @@
         font-size: 14px;
     }
 
-    th.desc-col, td.desc-col {
-        width: 45%;
-        text-align: left;
-    }
-
-    th.qty-col, td.qty-col {
-        width: 15%;
-        text-align: center;
-    }
-
-    th.rate-col, td.rate-col {
-        width: 15%;
-        text-align: center;
-    }
-
-    th.amount-col, td.amount-col {
-        width: 25%;
-        text-align: center;
-    }
-
     .totals {
         margin-top: 20px;
         padding: 15px;
@@ -98,20 +76,15 @@
         font-size: 15px;
     }
 
-    .totals p {
-        margin: 6px 0;
-    }
-
     #notes-box {
         margin-top: 10px;
         background: #fafafa;
         border: 1px solid #eee;
         padding: 10px;
         border-radius: 6px;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-        font-size: 14px;
         min-height: 40px;
+        white-space: pre-wrap;
+        font-size: 14px;
     }
 
     .signature {
@@ -158,10 +131,18 @@
             <td class="right-col"><b>Phone:</b> <span id="customerPhone"></span></td>
         </tr>
 
-        <!-- ⭐ NEWLY ADDED FIELDS -->
-        <tr>
-            <td class="left-col"><b>GSTIN:</b> <span id="customerGSTIN"></span></td>
-            <td class="right-col"><b>Address:</b> <span id="customerAddress"></span></td>
+        <!-- GSTIN Full Width -->
+        <tr id="gstRow">
+            <td colspan="2" class="left-col">
+                <b>GSTIN:</b> <span id="customerGSTIN"></span>
+            </td>
+        </tr>
+
+        <!-- Address Full Width -->
+        <tr id="addressRow">
+            <td colspan="2" class="left-col">
+                <b>Address:</b> <span id="customerAddress"></span>
+            </td>
         </tr>
     </table>
 
@@ -169,25 +150,24 @@
     <table class="product-table">
         <thead>
             <tr>
-                <th class="desc-col">Description</th>
-                <th class="qty-col">Qty (KG)</th>
-                <th class="rate-col">Rate</th>
-                <th class="amount-col">Amount</th>
+                <th>Description</th>
+                <th>Qty (KG)</th>
+                <th>Rate</th>
+                <th>Amount</th>
             </tr>
         </thead>
         <tbody>
             <tr>
-                <td class="desc-col" id="groundNutType"></td>
-                <td class="qty-col" id="qty"></td>
-                <td class="rate-col" id="rate"></td>
-                <td class="amount-col" id="amount"></td>
+                <td id="groundNutType"></td>
+                <td id="qty"></td>
+                <td id="rate"></td>
+                <td id="amount"></td>
             </tr>
         </tbody>
     </table>
 
-    <!-- Totals Section -->
+    <!-- Totals -->
     <div class="totals">
-
         <p><b>Additional Charges: ₹</b><span id="otherCharges"></span></p>
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
         <p><b>Amount in Words:</b> <span id="amountInWords"></span></p>
@@ -195,7 +175,7 @@
         <p><b>Balance: ₹</b><span id="balance"></span></p>
     </div>
 
-    <!-- Notes Section -->
+    <!-- Notes -->
     <p><b>Notes:</b></p>
     <div id="notes-box"></div>
 
@@ -215,7 +195,7 @@
 <script>
 const p = new URLSearchParams(window.location.search);
 
-// Assign values
+// Fill values
 document.getElementById("invoiceID").innerText = p.get("invoiceID");
 document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
 document.getElementById("customerName").innerText = p.get("customerName");
@@ -224,18 +204,30 @@ document.getElementById("customerPhone").innerText = p.get("customerPhone");
 document.getElementById("customerGSTIN").innerText = p.get("gstin") || "";
 document.getElementById("customerAddress").innerText = p.get("address") || "";
 
+// Hide GST row if empty
+if (!p.get("gstin")) {
+    document.getElementById("gstRow").style.display = "none";
+}
+
+// Hide Address row if empty
+if (!p.get("address")) {
+    document.getElementById("addressRow").style.display = "none";
+}
+
+// Product fields
 document.getElementById("groundNutType").innerText = p.get("groundNutType");
 document.getElementById("qty").innerText = p.get("qty");
 document.getElementById("rate").innerText = p.get("rate");
 document.getElementById("amount").innerText = p.get("amount");
 
+// Totals
 document.getElementById("otherCharges").innerText = p.get("otherCharges") || "0";
 document.getElementById("totalAmount").innerText = p.get("totalAmount");
 document.getElementById("paidAmount").innerText = p.get("paidAmount");
 document.getElementById("balance").innerText = p.get("balance");
 document.getElementById("notes-box").innerText = p.get("notes") || "";
 
-/* Convert Number to Words (Indian Format) */
+/* Convert Number to Words */
 function numberToWords(num) {
     const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
@@ -252,7 +244,7 @@ function numberToWords(num) {
         return "";
     }
 
-    let [rupees, paise] = num.split(".");
+    let [rupees, paise] = (num || "0").split(".");
     rupees = parseInt(rupees);
     paise = paise ? parseInt(paise) : 0;
 
@@ -262,6 +254,7 @@ function numberToWords(num) {
     return words + " Only";
 }
 
+// Set Amount in words
 document.getElementById("amountInWords").innerText =
     numberToWords(p.get("totalAmount") || "0");
 
