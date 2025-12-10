@@ -33,7 +33,7 @@
         border-radius: 6px;
     }
 
-    /* INFO TABLE */
+    /* ================= INFO TABLE ================ */
     .info-table {
         width: 100%;
         border-collapse: collapse;
@@ -42,36 +42,30 @@
         table-layout: fixed;
     }
 
-    /* Medium height fix */
-    .info-cell {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        padding: 3px 4px;   /* MEDIUM height */
-        width: 100% !important;
-    }
-
     .info-table td {
-        padding: 5px 6px !important;  /* MEDIUM height */
-        border: none !important;
+        padding: 5px 4px;
         border-bottom: 1px solid #eee;
         vertical-align: middle;
     }
 
     .info-table tr:last-child td {
-        border-bottom: none !important;
+        border-bottom: none;
     }
 
     .label {
         font-weight: bold;
-        margin-right: 8px;
     }
 
-    .left-col, .right-col {
-        width: 50%;
+    /* align fields cleanly */
+    .info-left {
+        text-align: left;
     }
 
-    /* PRODUCT TABLE */
+    .info-right {
+        text-align: right;
+    }
+
+    /* ================= PRODUCT TABLE ================ */
     table.product-table {
         width: 100%;
         border-collapse: collapse;
@@ -83,13 +77,15 @@
         background: #f2f2f2;
         font-weight: bold;
         text-align: center;
-    }
-
-    th, td {
         border: 1px solid #ccc;
         padding: 10px;
-        font-size: 14px;
+    }
+
+    tbody td {
+        border: 1px solid #ccc;
+        padding: 10px;
         text-align: center;
+        font-size: 14px;
     }
 
     #groundNutType {
@@ -100,6 +96,7 @@
         text-align: right !important;
     }
 
+    /* ================= TOTALS BOX ================ */
     .totals {
         margin-top: 20px;
         padding: 15px;
@@ -123,8 +120,8 @@
     .signature {
         margin-top: 40px;
         text-align: right;
-        margin-right: 40px;
         font-size: 14px;
+        margin-right: 40px;
     }
 
     .footer {
@@ -154,57 +151,27 @@
 
     <!-- INVOICE INFO -->
     <table class="info-table">
-
         <tr>
-            <td class="left-col">
-                <div class="info-cell">
-                    <span class="label">Invoice No:</span>
-                    <span id="invoiceID"></span>
-                </div>
-            </td>
-
-            <td class="right-col">
-                <div class="info-cell">
-                    <span class="label">Date:</span>
-                    <span id="invoiceDate"></span>
-                </div>
-            </td>
+            <td class="info-left"><span class="label">Invoice No:</span> <span id="invoiceID"></span></td>
+            <td class="info-right"><span class="label">Date:</span> <span id="invoiceDate"></span></td>
         </tr>
 
         <tr>
-            <td class="left-col">
-                <div class="info-cell">
-                    <span class="label">Customer Name:</span>
-                    <span id="customerName"></span>
-                </div>
-            </td>
-
-            <td class="right-col">
-                <div class="info-cell">
-                    <span class="label">Phone:</span>
-                    <span id="customerPhone"></span>
-                </div>
-            </td>
+            <td class="info-left"><span class="label">Customer Name:</span> <span id="customerName"></span></td>
+            <td class="info-right"><span class="label">Phone:</span> <span id="customerPhone"></span></td>
         </tr>
 
         <tr id="gstRow">
-            <td colspan="2">
-                <div class="info-cell">
-                    <span class="label">GSTIN:</span>
-                    <span id="customerGSTIN"></span>
-                </div>
+            <td colspan="2" class="info-left">
+                <span class="label">GSTIN:</span> <span id="customerGSTIN"></span>
             </td>
         </tr>
 
         <tr id="addressRow">
-            <td colspan="2">
-                <div class="info-cell">
-                    <span class="label">Address:</span>
-                    <span id="customerAddress"></span>
-                </div>
+            <td colspan="2" class="info-left">
+                <span class="label">Address:</span> <span id="customerAddress"></span>
             </td>
         </tr>
-
     </table>
 
     <!-- PRODUCT TABLE -->
@@ -217,7 +184,6 @@
                 <th>Amount</th>
             </tr>
         </thead>
-
         <tbody>
             <tr>
                 <td id="groundNutType"></td>
@@ -228,7 +194,7 @@
         </tbody>
     </table>
 
-    <!-- TOTALS -->
+    <!-- TOTALS SECTION -->
     <div class="totals">
         <p><b>Additional Charges: ₹</b><span id="otherCharges"></span></p>
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
