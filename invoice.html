@@ -33,7 +33,6 @@
         border-radius: 6px;
     }
 
-    /* Invoice Info Table Layout Fix */
     .info-table {
         width: 100%;
         margin-top: 15px;
@@ -53,7 +52,6 @@
         text-align: right;
     }
 
-    /* Table styling */
     table.product-table {
         width: 100%;
         border-collapse: collapse;
@@ -91,7 +89,6 @@
         text-align: center;
     }
 
-    /* Totals section with soft grey background */
     .totals {
         margin-top: 20px;
         padding: 15px;
@@ -105,7 +102,6 @@
         margin: 6px 0;
     }
 
-    /* Notes box styling */
     #notes-box {
         margin-top: 10px;
         background: #fafafa;
@@ -118,7 +114,6 @@
         min-height: 40px;
     }
 
-    /* Signature */
     .signature {
         margin-top: 40px;
         text-align: right;
@@ -157,9 +152,16 @@
             <td class="left-col"><b>Invoice No:</b> <span id="invoiceID"></span></td>
             <td class="right-col"><b>Date:</b> <span id="invoiceDate"></span></td>
         </tr>
+
         <tr>
             <td class="left-col"><b>Customer Name:</b> <span id="customerName"></span></td>
             <td class="right-col"><b>Phone:</b> <span id="customerPhone"></span></td>
+        </tr>
+
+        <!-- ⭐ NEWLY ADDED FIELDS -->
+        <tr>
+            <td class="left-col"><b>GSTIN:</b> <span id="customerGSTIN"></span></td>
+            <td class="right-col"><b>Address:</b> <span id="customerAddress"></span></td>
         </tr>
     </table>
 
@@ -187,13 +189,9 @@
     <div class="totals">
 
         <p><b>Additional Charges: ₹</b><span id="otherCharges"></span></p>
-
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
-
         <p><b>Amount in Words:</b> <span id="amountInWords"></span></p>
-
         <p><b>Paid Amount: ₹</b><span id="paidAmount"></span></p>
-
         <p><b>Balance: ₹</b><span id="balance"></span></p>
     </div>
 
@@ -215,14 +213,16 @@
 </div>
 
 <script>
-// Read URL parameters
 const p = new URLSearchParams(window.location.search);
 
-// Assign values to HTML
+// Assign values
 document.getElementById("invoiceID").innerText = p.get("invoiceID");
 document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
 document.getElementById("customerName").innerText = p.get("customerName");
 document.getElementById("customerPhone").innerText = p.get("customerPhone");
+
+document.getElementById("customerGSTIN").innerText = p.get("gstin") || "";
+document.getElementById("customerAddress").innerText = p.get("address") || "";
 
 document.getElementById("groundNutType").innerText = p.get("groundNutType");
 document.getElementById("qty").innerText = p.get("qty");
@@ -235,13 +235,12 @@ document.getElementById("paidAmount").innerText = p.get("paidAmount");
 document.getElementById("balance").innerText = p.get("balance");
 document.getElementById("notes-box").innerText = p.get("notes") || "";
 
-/* Convert Amount to Words (Indian Rupees Format) */
+/* Convert Number to Words (Indian Format) */
 function numberToWords(num) {
-    const a = [
-        "", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
+    const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
-        "Seventeen", "Eighteen", "Nineteen"
-    ];
+        "Seventeen", "Eighteen", "Nineteen"];
+
     const b = ["", "", "Twenty", "Thirty", "Forty", "Fifty", "Sixty", "Seventy", "Eighty", "Ninety"];
 
     function inWords(n) {
@@ -263,8 +262,8 @@ function numberToWords(num) {
     return words + " Only";
 }
 
-// Set Amount in Words
-document.getElementById("amountInWords").innerText = numberToWords(p.get("totalAmount") || "0");
+document.getElementById("amountInWords").innerText =
+    numberToWords(p.get("totalAmount") || "0");
 
 </script>
 
