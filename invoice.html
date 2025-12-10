@@ -33,27 +33,39 @@
         border-radius: 6px;
     }
 
+    /* INFO TABLE */
     .info-table {
         width: 100%;
-        margin-top: 15px;
         border-collapse: collapse;
+        margin-top: 15px;
         font-size: 14px;
+        table-layout: fixed;
     }
 
-    .left-col {
-        padding: 6px;
-        text-align: left;
+    .info-cell {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 6px 4px;
+        width: 100% !important;
     }
 
-    .right-col {
-        padding: 6px;
-        text-align: right;
+    .label {
+        font-weight: bold;
+        margin-right: 10px;
     }
 
+    .left-col, .right-col {
+        width: 50%;
+        vertical-align: middle;
+    }
+
+    /* PRODUCT TABLE */
     table.product-table {
         width: 100%;
         border-collapse: collapse;
         margin-top: 20px;
+        table-layout: fixed;
     }
 
     thead th {
@@ -66,22 +78,20 @@
         border: 1px solid #ccc;
         padding: 10px;
         font-size: 14px;
+        text-align: center;
     }
 
-    /* PERFECT ALIGNMENT FIX */
+    /* LEFT ALIGN DESCRIPTION */
     #groundNutType {
         text-align: left !important;
     }
-    #qty {
-        text-align: center !important;
-    }
-    #rate {
-        text-align: center !important;
-    }
+
+    /* RIGHT ALIGN AMOUNT */
     #amount {
         text-align: right !important;
     }
 
+    /* TOTALS SECTION */
     .totals {
         margin-top: 20px;
         padding: 15px;
@@ -134,34 +144,64 @@
         </p>
     </div>
 
-    <!-- Invoice Information -->
+    <!-- INVOICE INFO -->
     <table class="info-table">
+
         <tr>
-            <td class="left-col"><b>Invoice No:</b> <span id="invoiceID"></span></td>
-            <td class="right-col"><b>Date:</b> <span id="invoiceDate"></span></td>
+            <td class="left-col">
+                <div class="info-cell">
+                    <span class="label">Invoice No:</span>
+                    <span id="invoiceID"></span>
+                </div>
+            </td>
+
+            <td class="right-col">
+                <div class="info-cell">
+                    <span class="label">Date:</span>
+                    <span id="invoiceDate"></span>
+                </div>
+            </td>
         </tr>
 
         <tr>
-            <td class="left-col"><b>Customer Name:</b> <span id="customerName"></span></td>
-            <td class="right-col"><b>Phone:</b> <span id="customerPhone"></span></td>
+            <td class="left-col">
+                <div class="info-cell">
+                    <span class="label">Customer Name:</span>
+                    <span id="customerName"></span>
+                </div>
+            </td>
+
+            <td class="right-col">
+                <div class="info-cell">
+                    <span class="label">Phone:</span>
+                    <span id="customerPhone"></span>
+                </div>
+            </td>
         </tr>
 
-        <!-- GSTIN Full Width -->
+        <!-- GSTIN ROW -->
         <tr id="gstRow">
-            <td colspan="2" class="left-col">
-                <b>GSTIN:</b> <span id="customerGSTIN"></span>
+            <td colspan="2">
+                <div class="info-cell">
+                    <span class="label">GSTIN:</span>
+                    <span id="customerGSTIN"></span>
+                </div>
             </td>
         </tr>
 
-        <!-- Address Full Width -->
+        <!-- ADDRESS ROW -->
         <tr id="addressRow">
-            <td colspan="2" class="left-col">
-                <b>Address:</b> <span id="customerAddress"></span>
+            <td colspan="2">
+                <div class="info-cell">
+                    <span class="label">Address:</span>
+                    <span id="customerAddress"></span>
+                </div>
             </td>
         </tr>
+
     </table>
 
-    <!-- Product Table -->
+    <!-- PRODUCT TABLE -->
     <table class="product-table">
         <thead>
             <tr>
@@ -171,6 +211,7 @@
                 <th>Amount</th>
             </tr>
         </thead>
+
         <tbody>
             <tr>
                 <td id="groundNutType"></td>
@@ -181,7 +222,7 @@
         </tbody>
     </table>
 
-    <!-- Totals -->
+    <!-- TOTALS -->
     <div class="totals">
         <p><b>Additional Charges: ₹</b><span id="otherCharges"></span></p>
         <p><b>Total Amount: ₹</b><span id="totalAmount"></span></p>
@@ -190,11 +231,9 @@
         <p><b>Balance: ₹</b><span id="balance"></span></p>
     </div>
 
-    <!-- Notes -->
     <p><b>Notes:</b></p>
     <div id="notes-box"></div>
 
-    <!-- Signature -->
     <div class="signature">
         _______________________<br />
         Authorised Signature
@@ -210,39 +249,28 @@
 <script>
 const p = new URLSearchParams(window.location.search);
 
-// Fill values
 document.getElementById("invoiceID").innerText = p.get("invoiceID");
 document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
 document.getElementById("customerName").innerText = p.get("customerName");
 document.getElementById("customerPhone").innerText = p.get("customerPhone");
-
 document.getElementById("customerGSTIN").innerText = p.get("gstin") || "";
 document.getElementById("customerAddress").innerText = p.get("address") || "";
 
-// Hide GST row if empty
-if (!p.get("gstin")) {
-    document.getElementById("gstRow").style.display = "none";
-}
+if (!p.get("gstin")) document.getElementById("gstRow").style.display = "none";
+if (!p.get("address")) document.getElementById("addressRow").style.display = "none";
 
-// Hide Address row if empty
-if (!p.get("address")) {
-    document.getElementById("addressRow").style.display = "none";
-}
-
-// Product fields
 document.getElementById("groundNutType").innerText = p.get("groundNutType");
 document.getElementById("qty").innerText = p.get("qty");
 document.getElementById("rate").innerText = p.get("rate");
 document.getElementById("amount").innerText = p.get("amount");
 
-// Totals
 document.getElementById("otherCharges").innerText = p.get("otherCharges") || "0";
 document.getElementById("totalAmount").innerText = p.get("totalAmount");
 document.getElementById("paidAmount").innerText = p.get("paidAmount");
 document.getElementById("balance").innerText = p.get("balance");
 document.getElementById("notes-box").innerText = p.get("notes") || "";
 
-/* Convert Number to Words */
+/* Convert to words */
 function numberToWords(num) {
     const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
@@ -269,7 +297,6 @@ function numberToWords(num) {
     return words + " Only";
 }
 
-// Set Amount in words
 document.getElementById("amountInWords").innerText =
     numberToWords(p.get("totalAmount") || "0");
 
