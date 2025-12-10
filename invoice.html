@@ -42,22 +42,33 @@
         table-layout: fixed;
     }
 
+    /* Medium height fix */
     .info-cell {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 6px 4px;
+        padding: 3px 4px;   /* MEDIUM height */
         width: 100% !important;
+    }
+
+    .info-table td {
+        padding: 5px 6px !important;  /* MEDIUM height */
+        border: none !important;
+        border-bottom: 1px solid #eee;
+        vertical-align: middle;
+    }
+
+    .info-table tr:last-child td {
+        border-bottom: none !important;
     }
 
     .label {
         font-weight: bold;
-        margin-right: 10px;
+        margin-right: 8px;
     }
 
     .left-col, .right-col {
         width: 50%;
-        vertical-align: middle;
     }
 
     /* PRODUCT TABLE */
@@ -81,17 +92,14 @@
         text-align: center;
     }
 
-    /* LEFT ALIGN DESCRIPTION */
     #groundNutType {
         text-align: left !important;
     }
 
-    /* RIGHT ALIGN AMOUNT */
     #amount {
         text-align: right !important;
     }
 
-    /* TOTALS SECTION */
     .totals {
         margin-top: 20px;
         padding: 15px;
@@ -179,7 +187,6 @@
             </td>
         </tr>
 
-        <!-- GSTIN ROW -->
         <tr id="gstRow">
             <td colspan="2">
                 <div class="info-cell">
@@ -189,7 +196,6 @@
             </td>
         </tr>
 
-        <!-- ADDRESS ROW -->
         <tr id="addressRow">
             <td colspan="2">
                 <div class="info-cell">
@@ -253,6 +259,7 @@ document.getElementById("invoiceID").innerText = p.get("invoiceID");
 document.getElementById("invoiceDate").innerText = p.get("invoiceDate");
 document.getElementById("customerName").innerText = p.get("customerName");
 document.getElementById("customerPhone").innerText = p.get("customerPhone");
+
 document.getElementById("customerGSTIN").innerText = p.get("gstin") || "";
 document.getElementById("customerAddress").innerText = p.get("address") || "";
 
@@ -270,7 +277,7 @@ document.getElementById("paidAmount").innerText = p.get("paidAmount");
 document.getElementById("balance").innerText = p.get("balance");
 document.getElementById("notes-box").innerText = p.get("notes") || "";
 
-/* Convert to words */
+/* Convert to Words */
 function numberToWords(num) {
     const a = ["", "One", "Two", "Three", "Four", "Five", "Six", "Seven", "Eight", "Nine",
         "Ten", "Eleven", "Twelve", "Thirteen", "Fourteen", "Fifteen", "Sixteen",
